@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Urdu Wri8es - Video Portal</title>
-    <!-- FontAwesome CDN for Social Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+   <!-- FontAwesome CDN for Social Icons -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   <link rel="stylesheet" href="style.css">
+   <!-- NEW: Dynamic Favicon Tag -->
+   <link rel="icon" id="dynamic-favicon" type="image/x-icon" href="">
 
     <!-- 1. GOOGLE SITE VERIFICATION META TAG (Yahan apna tag paste karein!) -->
     <!-- Aapka Google Verification Tag jo is tarah ka hoga: <meta name="google-site-verification" content="..." /> use is line ke neeche paste kar dein: -->
@@ -717,7 +719,7 @@
             <div class="search-box-container">
                 <div class="search-input-wrapper">
                     <i class="fa fa-search search-icon"></i>
-                    <input type="text" id="search-input" placeholder="Apni pasand ki video search karein...">
+                    <input type="text" id="search-input" placeholder="Search Video On Urdu Wri8es....">
                 </div>
             </div>
         </header>
@@ -852,7 +854,7 @@
         </div>
         <!-- Copyright Section Brand Name is Clickable to go back to main videos page -->
         <div class="footer-bottom">
-            <p>&copy; 2026 <span onclick="showPage('home')" style="cursor: pointer;"><span class="red-text" style="font-weight: bold;">Urdu</span> <span class="white-text" style="font-weight: bold;">Wri8es</span></span>. All Rights Reserved. Designed from Mobile.</p>
+            <p>&copy; 2026 <span onclick="showPage('home')" style="cursor: pointer;"><span class="red-text" style="font-weight: bold;">Urdu</span> <span class="white-text" style="font-weight: bold;">Wri8es</span></span>. All Rights Reserved. Designed By Urduwriters92.</p>
         </div>
     </footer>
 
@@ -1074,7 +1076,10 @@
                             // Set high-res circular logo
                             const ytLogoUrl = snippet.thumbnails.high.url || snippet.thumbnails.default.url;
                             logoImg.src = ytLogoUrl;
-
+  
+                          // Dynamic Favicon update logic
+                          const favicon = document.getElementById('dynamic-favicon');
+                          if (favicon) favicon.href = ytLogoUrl;
                             // Set high-res dynamic Channel Art (Banner) in background
                             if (branding && branding.image && branding.image.bannerExternalUrl) {
                                 const ytBannerUrl = branding.image.bannerExternalUrl + "=w1060";
