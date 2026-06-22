@@ -4,140 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Urdu Wri8es - Video Portal</title>
+    <!-- Google Search Console Verification Tag -->
+    <meta name="google-site-verification" content="iDh8e50uUs7vJalioslnngvNjORYh_IFrGqagYS8Y9s" />
     <!-- FontAwesome CDN for Social Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 
-    <!-- Pake (Permanent) Styles for Custom Header, Footer, Brand Icons, Subscribe Widget, Grid Switcher, SEO Tags, Dropdown Bio, Sidebar & Pages -->
+    <!-- Pake (Permanent) Styles for Custom Header, Footer, Brand Icons, Subscribe Widget, Grid Switcher & SEO Tags -->
     <style>
-        /* ==========================================================
-           --- 1. NEW: TRUE YOUTUBE APP STYLE BANNER LAYOUT ---
-           ========================================================== */
-        .hero-header {
-            background-color: #121212 !important; /* Clean dark background */
-            padding: 0 0 35px 0 !important; /* No top padding */
-            text-align: center;
-            border-bottom: 2px solid #ff0000;
-            position: relative;
-        }
-
-        /* Separate Channel Art Banner Box (Bright, no overlays, YouTube style!) */
-        .channel-banner {
-            width: 100%;
-            height: 120px; /* Perfect mobile height */
-            background-color: #1a1a1a;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            border-bottom: 1px solid #222222;
-        }
-
-        @media (min-width: 600px) {
-            .channel-banner {
-                height: 180px; /* Larger screens banner */
-            }
-        }
-
-        .header-content {
-            max-width: 700px;
-            margin: -50px auto 25px auto !important; /* Logo overlaps banner bottom beautifully */
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            z-index: 10;
-            padding: 0 20px;
-        }
-
-        /* --- 2. HEADER DESCRIPTION DROPDOWN SYSTEM (FIXED!) --- */
-        .header-desc-toggle {
-            background-color: #1a1a1a;
-            color: #aaaaaa;
-            border: 1px solid #333333;
-            padding: 8px 18px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            outline: none;
-            margin: 5px auto 0 auto; /* Centered button */
-        }
-
-        .header-desc-toggle:hover {
-            color: #ffffff;
-            border-color: #ff0000;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
-        }
-
-        .header-desc-toggle i {
-            font-size: 10px;
-            transition: transform 0.3s ease;
-        }
-
-        .header-desc-toggle.active i {
-            transform: rotate(180deg); /* Chevron rotates when expanded */
-        }
-
-        .header-full-desc {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.4s ease-in-out; /* Smooth sliding transition */
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .desc-inner-content {
-            background-color: #1a1a1a;
-            border: 1px solid #2a2a2a;
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 15px;
-            text-align: left; /* Aligned left like official YouTube About */
-            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .desc-inner-content p {
-            font-size: 13px !important;
-            color: #cccccc !important;
-            line-height: 1.6 !important;
-            margin-bottom: 12px !important;
-        }
-
-        .desc-heading {
-            font-weight: bold !important;
-            color: #ffffff !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding-bottom: 8px;
-            font-size: 14px !important;
-            margin-bottom: 10px !important;
-        }
-
-        .leaves-list {
-            list-style: none;
-            padding-left: 0;
-            margin: 15px 0;
-        }
-
-        .leaves-list li {
-            font-size: 13px;
-            color: #cccccc;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        /* --- 3. RED LINE OVER THE FOOTER TO MATCH HEADER --- */
+        /* --- RED LINE OVER THE FOOTER TO MATCH HEADER --- */
         .footer {
-            border-top: 2px solid #ff0000 !important; /* Header jaisi chamakdar laal line */
+            border-top: 2px solid #ff0000 !important; /* Header jaisi laal line */
         }
 
-        /* --- 4. BEAUTIFUL SEO TAGS CLOUD STYLE --- */
+        /* --- BEAUTIFUL SEO TAGS CLOUD STYLE --- */
         .seo-tags-container {
             display: flex;
             flex-wrap: wrap; /* Allows tags to wrap beautifully on mobile screen */
@@ -167,7 +47,7 @@
             box-shadow: 0 4px 10px rgba(255, 0, 0, 0.2);
         }
 
-        /* --- 5. DYNAMIC GRID SWITCHER UTILITY BAR --- */
+        /* --- DYNAMIC GRID SWITCHER UTILITY BAR --- */
         .switcher-bar {
             max-width: 1200px;
             margin: 15px auto 5px auto;
@@ -1041,7 +921,7 @@
             });
         }
 
-        // --- DYNAMIC HEADER LOGO LOADER ---
+        // --- DYNAMIC HEADER LOGO & BANNER ART LOADER ---
         async function loadHeaderDetails() {
             const logoImg = document.getElementById('channel-logo');
             const welcomeEl = document.getElementById('channel-welcome');
@@ -1284,6 +1164,74 @@
 
         loadInitialContent();
     </script>
+
+    <!-- ==========================================================
+         --- DETAILED STATIC PAGES VIEWS (SPA ROUTER) ---
+         --- (HTML position fixed to load BEFORE the footer) ---
+    ========================================================== -->
+
+    <!-- ABOUT US VIEW -->
+    <div id="about-view" class="page-view" style="display: none;">
+        <h2>About Us - Urdu Wri8es</h2>
+        <p>Welcome to <strong>Urdu Wri8es</strong>, your ultimate online destination for high-quality, inspiring, and soul-stirring Islamic content. Our mission is to spread the beautiful, peaceful, and life-changing teachings of Islam to audiences worldwide through easily accessible Urdu lectures, moral stories, and short clips.</p>
+        <p>This website was created from mobile with 100% dedication to compiling our YouTube channel's best bayanat, including the life-changing lessons of Hazrat Umar (RA), the Islamic Tarbiyati Course, and spiritual lectures by Peer Ajmal Raza Qadri, all organized under one beautiful roof.</p>
+        <h3>Our Vision</h3>
+        <p>We believe in leveraging the power of technology to educate, inspire, and bring positive changes to people's daily lives. By providing structured, categorized playlists and a clean environment, we make it easy for you to learn and grow in your Deen.</p>
+        <button class="submit-btn" onclick="showPage('home')" style="width: auto; padding: 8px 20px; margin-top: 15px;">Back to Home</button>
+    </div>
+
+    <!-- CONTACT US VIEW -->
+    <div id="contact-view" class="page-view" style="display: none;">
+        <h2>Contact Us</h2>
+        <p>Do you have any questions, feedback, or suggestions for Urdu Wri8es? We would love to hear from you! Please fill out the form below, and our team will get back to you as soon as possible.</p>
+        
+        <form class="contact-form" onsubmit="handleContactSubmit(event)">
+            <div class="form-group">
+                <label for="c-name">Aapka Naam (Full Name)</label>
+                <input type="text" id="c-name" class="form-control" required placeholder="E.g., Muhammad Ali">
+            </div>
+            <div class="form-group">
+                <label for="c-email">Email Address</label>
+                <input type="email" id="c-email" class="form-control" required placeholder="E.g., name@example.com">
+            </div>
+            <div class="form-group">
+                <label for="c-msg">Aapka Message (Your Message)</label>
+                <textarea id="c-msg" class="form-control" rows="5" required placeholder="Apna message yahan likhein..."></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+
+        <div class="contact-info">
+            <p><i class="fas fa-envelope"></i> <strong>Email:</strong> Urduwriters92@gmail.com</p>
+            <p><i class="fab fa-youtube"></i> <strong>YouTube:</strong> @urduwri8es</p>
+        </div>
+    </div>
+
+    <!-- PRIVACY POLICY VIEW -->
+    <div id="privacy-view" class="page-view" style="display: none;">
+        <h2>Privacy Policy</h2>
+        <p>At Urdu Wri8es, accessible from our website, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Urdu Wri8es and how we use it.</p>
+        <h3>Information We Collect</h3>
+        <p>We do not require any user registration or personal details to browse our video portal. If you contact us directly via our contact form, we may receive your name and email address solely to reply to your queries.</p>
+        <h3>Cookies and Web Beacons</h3>
+        <p>Urdu Wri8es uses standard embedding from YouTube. YouTube and Google may use cookies and web beacons to serve personalized video suggestions, track view counts, and analyze visitor traffic. You can choose to disable cookies through your individual browser options.</p>
+        <h3>Consent</h3>
+        <p>By using our website, you hereby consent to our Privacy Policy and agree to its terms.</p>
+        <button class="submit-btn" onclick="showPage('home')" style="width: auto; padding: 8px 20px; margin-top: 15px;">Back to Home</button>
+    </div>
+
+    <!-- TERMS OF SERVICE VIEW -->
+    <div id="terms-view" class="page-view" style="display: none;">
+        <h2>Terms of Service</h2>
+        <p>Welcome to Urdu Wri8es. By accessing and using this website, you accept and agree to be bound by the terms and provision of this agreement.</p>
+        <h3>Content Ownership</h3>
+        <p>All videos, graphics, and branding assets displayed on this portal are the intellectual property of Urdu Wri8es and protected by copyright laws. You may not re-upload, sell, or commercialize any content from this site without prior written consent.</p>
+        <h3>Usage License</h3>
+        <p>Permission is granted to temporarily view the content on Urdu Wri8es for personal, non-commercial transitory viewing only.</p>
+        <h3>Disclaimer</h3>
+        <p>The materials on Urdu Wri8es are provided on an 'as is' basis. We make no warranties, expressed or implied, and hereby disclaim and negate all other warranties including, without limitation, implied warranties of merchantability.</p>
+        <button class="submit-btn" onclick="showPage('home')" style="width: auto; padding: 8px 20px; margin-top: 15px;">Back to Home</button>
+    </div>
 
 </body>
 </html>
