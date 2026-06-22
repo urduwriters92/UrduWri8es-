@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urdu Wri8es - Video Portal</title>
+    <!-- FontAwesome CDN for Social Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Pake (Permanent) Styles for Custom Header, Footer, Brand Icons, Subscribe Widget, Grid Switcher, SEO Tags, Dropdown Bio, Sidebar & Pages -->
+    <style>
+        /* ==========================================================
+           --- 1. NEW: TRUE YOUTUBE APP STYLE BANNER LAYOUT ---
+           ========================================================== */
+        .hero-header {
+            background-color: #121212 !important; /* Clean dark background */
+            padding: 0 0 35px 0 !important; /* No top padding */
+            text-align: center;
+            border-bottom: 2px solid #ff0000;
+            position: relative;
+        }
+
+        /* Separate Channel Art Banner Box (Bright, no overlays, YouTube style!) */
+        .channel-banner {
+            width: 100%;
+            height: 120px; /* Perfect mobile height */
+            background-color: #1a1a1a;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-bottom: 1px solid #222222;
+        }
+
+        @media (min-width: 600px) {
+            .channel-banner {
+                height: 180px; /* Larger screens banner */
+            }
+        }
+
+        .header-content {
+            max-width: 700px;
+            margin: -50px auto 25px auto !important; /* Logo overlaps banner bottom beautifully */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+            padding: 0 20px;
+        }
+
+        /* --- 2. HEADER DESCRIPTION DROPDOWN SYSTEM (FIXED!) --- */
+        .header-desc-toggle {
+            background-color: #1a1a1a;
+            color: #aaaaaa;
+            border: 1px solid #333333;
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            outline: none;
+            margin: 5px auto 0 auto; /* Centered button */
+        }
+
+        .header-desc-toggle:hover {
+            color: #ffffff;
+            border-color: #ff0000;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+        }
+
+        .header-desc-toggle i {
+            font-size: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .header-desc-toggle.active i {
+            transform: rotate(180deg); /* Chevron rotates when expanded */
+        }
+
+        .header-full-desc {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-in-out; /* Smooth sliding transition */
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .desc-inner-content {
+            background-color: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+            text-align: left; /* Aligned left like official YouTube About */
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .desc-inner-content p {
+            font-size: 13px !important;
+            color: #cccccc !important;
+            line-height: 1.6 !important;
+            margin-bottom: 12px !important;
+        }
+
+        .desc-heading {
+            font-weight: bold !important;
+            color: #ffffff !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 8px;
+            font-size: 14px !important;
+            margin-bottom: 10px !important;
+        }
+
+        .leaves-list {
+            list-style: none;
+            padding-left: 0;
+            margin: 15px 0;
+        }
+
+        .leaves-list li {
+            font-size: 13px;
+            color: #cccccc;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --- 3. RED LINE OVER THE FOOTER TO MATCH HEADER --- */
+        .footer {
+            border-top: 2px solid #ff0000 !important; /* Header jaisi chamakdar laal line */
+        }
+
+        /* --- 4. BEAUTIFUL SEO TAGS CLOUD STYLE --- */
+        .seo-tags-container {
+            display: flex;
+            flex-wrap: wrap; /* Allows tags to wrap beautifully on mobile screen */
+            gap: 8px; /* Spacing between tags */
+            margin-top: 15px;
+            max-width: 550px; /* Keep it aligned and neat */
+        }
+
+        .seo-tag {
+            background-color: rgba(255, 255, 255, 0.02);
+            color: #888888; /* Soft grey text */
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .seo-tag:hover {
+            color: #ff0000; /* YouTube Red on touch */
+            border-color: #ff0000;
+            background-color: rgba(255, 0, 0, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(255, 0, 0, 0.2);
+        }
+
+        /* --- 5. DYNAMIC GRID SWITCHER UTILITY BAR --- */
+        .switcher-bar {
+            max-width: 1200px;
+            margin: 15px auto 5px auto;
+            padding: 0 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 8px;
+        }
+
+        .category-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #ffffff;
+            border-left: 3px solid #ff0000;
+            padding-left: 8px;
+        }
+
+        .grid-toggle-btn {
+            background-color: #1a1a1a;
+            color: #aaaaaa;
+            border: 1px solid #333333;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .grid-toggle-btn:hover {
+            color: #ffffff;
+            border-color: #ff0000;
+        }
+
+        /* --- 1, 2, 4 COLUMNS OVERRIDES --- */
+        .long-grid.cols-1, .shorts-grid.cols-1 {
+            grid-template-columns: 1fr !important;
+        }
+        .long-grid.cols-2, .shorts-grid.cols-2 {
+            grid-template-columns: repeat(2, 1fr) !important;
+        }
+        .long-grid.cols-4, .shorts-grid.cols-4 {
+            grid-template-columns: repeat(4, 1fr) !important;
+        }
+
+        /* Compact styling overrides when cols-4 is active (Prevents mobile design break) */
+        .cols-4 .video-info p, 
+        .cols-4 .upload-date, 
+        .cols-4 .expand-btn,
+        .cols-4 .full-description {
+            display: none !important;
+        }
+        .cols-4 .video-info h2 {
+            font-size: 11px !important;
+            -webkit-line-clamp: 2 !important;
+        }
+        .cols-4 .video-info {
+            padding: 8px !important;
+        }
+
+        /* --- OFFICIAL GOOGLE SUBSCRIBE WIDGET STYLE --- */
+        .yt-subscribe-widget-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 5px;
+            margin-bottom: 22px; 
+            min-height: 35px; 
+        }
+
+        /* --- FOOTER SOCIAL LABELS & ORIGINAL BRAND COLORS --- */
+        .footer-socials {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            text-align: center;
+        }
+
+        .footer-icons {
+            display: flex;
+            justify-content: center; 
+            align-items: flex-end; 
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .footer-social-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .social-label {
+            font-size: 9px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2px;
+        }
+
+        .social-label.sub-label {
+            color: #ff0000; /* YouTube Red */
+        }
+        .social-label.fb-label {
+            color: #1877f2; /* Facebook Blue */
+        }
+        .social-label.insta-label {
+            color: #e1306c; /* Instagram Pink */
+        }
+        .social-label.tt-label {
+            color: #00f2fe; /* TikTok Cyan */
+        }
+
+        .f-social-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        /* YouTube (Red Style) */
+        .f-social-icon.yt {
+            color: #ff0000;
+            background-color: rgba(255, 0, 0, 0.08);
+            border: 1px solid rgba(255, 0, 0, 0.25);
+        }
+        .f-social-icon.yt:hover {
+            background-color: #ff0000;
+            color: #ffffff;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.45);
+        }
+
+        /* Facebook (Blue Style) */
+        .f-social-icon.fb {
+            color: #1877f2;
+            background-color: rgba(24, 119, 242, 0.08);
+            border: 1px solid rgba(24, 119, 242, 0.25);
+        }
+        .f-social-icon.fb:hover {
+            background-color: #1877f2;
+            color: #ffffff;
+            box-shadow: 0 0 10px rgba(24, 119, 242, 0.45);
+        }
+
+        /* Instagram (Pink Style) */
+        .f-social-icon.insta {
+            color: #e1306c;
+            background-color: rgba(225, 48, 108, 0.08);
+            border: 1px solid rgba(225, 48, 108, 0.25);
+        }
+        .f-social-icon.insta:hover {
+            background-color: #e1306c;
+            color: #ffffff;
+            box-shadow: 0 0 10px rgba(225, 48, 108, 0.45);
+        }
+
+        /* TikTok (Cyan Style) */
+        .f-social-icon.tt {
+            color: #00f2fe;
+            background-color: rgba(0, 242, 254, 0.08);
+            border: 1px solid rgba(0, 242, 254, 0.25);
+        }
+        .f-social-icon.tt:hover {
+            background-color: #00f2fe;
+            color: #121212;
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.45);
+        }
+
+        /* --- GLOWING CIRCULAR LOGO --- */
+        .channel-logo {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            border: 3px solid #ff0000; 
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.55); /* Beautiful Red Glowing */
+            margin-bottom: 15px;
+            object-fit: cover;
+        }
+
+        /* Designed Title: Urdu (Red) Wri8es (White) */
+        .designed-title {
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        .red-text {
+            color: #ff0000; 
+        }
+
+        .white-text {
+            color: #ffffff; 
+        }
+
+        /* Welcome Subtitle: Small, Green */
+        .welcome-subtitle {
+            font-size: 11px;
+            font-weight: bold;
+            color: #00ff88; 
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+        }
+
+        /* --- SLIDE SIDEBAR MENU (HAMBURGER DRAWER) --- */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -280px; 
+            width: 280px;
+            height: 100%;
+            background-color: #1a1a1a;
+            box-shadow: 4px 0 15px rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            transition: left 0.3s ease-in-out;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar.open {
+            left: 0; 
+        }
+        
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            z-index: 1999;
+            display: none;
+        }
+        
+        .sidebar-overlay.active {
+            display: block; 
+        }
+        
+        .sidebar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #2a2a2a;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-close {
+            background: none;
+            border: none;
+            color: #ff0000;
+            font-size: 22px;
+            cursor: pointer;
+            outline: none;
+        }
+        
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .sidebar-menu a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: #222222;
+            color: #ff0000;
+        }
+        
+        .sidebar-menu a i {
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+        
+        .sidebar-footer {
+            margin-top: auto;
+            border-top: 1px solid #2a2a2a;
+            padding-top: 15px;
+            font-size: 11px;
+            color: #666666;
+            text-align: center;
+        }
+
+        .menu-toggle {
+            font-size: 20px;
+            color: #ffffff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+        .menu-toggle:hover {
+            color: #ff0000;
+        }
+
+        /* ==========================================================
+           --- PAGES VIEW STYLE (About, Contact, Privacy, Terms) ---
+           ========================================================== */
+        .page-view {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 25px;
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            min-height: 450px;
+            border-top: 3px solid #ff0000; 
+        }
+        
+        .page-view h2 {
+            font-size: 24px;
+            color: #ffffff;
+            border-bottom: 1px solid #2a2a2a;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .page-view p {
+            font-size: 14px;
+            color: #cccccc;
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        
+        .page-view h3 {
+            font-size: 18px;
+            color: #ff0000;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .form-group label {
+            font-size: 12px;
+            font-weight: bold;
+            color: #aaaaaa;
+        }
+        
+        .form-control {
+            background-color: #222222;
+            border: 1px solid #333333;
+            border-radius: 6px;
+            padding: 11px 12px;
+            color: #ffffff;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: #ff0000;
+        }
+        
+        .submit-btn {
+            background-color: #ff0000;
+            color: #ffffff;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            outline: none;
+        }
+        
+        .submit-btn:hover {
+            background-color: #cc0000;
+        }
+        
+        .contact-info {
+            background-color: #222222;
+            border-radius: 6px;
+            padding: 15px;
+            margin-top: 25px;
+            font-size: 13px;
+            color: #aaaaaa;
+        }
+        
+        .contact-info p {
+            margin-bottom: 8px;
+        }
+        
+        .contact-info p i {
+            color: #ff0000;
+            margin-right: 8px;
+            width: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Navigation Bar (Top Header) - Brand Name is Clickable now to go Home -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <!-- 3-Line Hamburger Icon -->
+                <div class="menu-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></div>
+                <!-- Navbar Logo is Clickable to go back to main videos page -->
+                <div class="logo" style="cursor: pointer;" onclick="showPage('home')">
+                    <i class="fab fa-youtube" style="color: #ff0000; margin-right: 5px;"></i> 
+                    <span class="red-text">Urdu</span>&nbsp;<span class="white-text">Wri8es</span>
+                </div>
+            </div>
+            <!-- Social Icons dynamically load here -->
+            <div id="nav-socials" class="nav-socials"></div>
+        </div>
+    </nav>
+
+    <!-- Sidebar Drawer (Hamburger Sliding Menu) -->
+    <div id="sidebar-overlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <!-- Sidebar Header Brand Name is Clickable to go back to main videos page -->
+            <div class="logo" style="font-size: 18px; cursor: pointer;" onclick="showPage('home')">
+                <i class="fab fa-youtube" style="color: #ff0000; margin-right: 5px;"></i> 
+                <span class="red-text">Urdu</span>&nbsp;<span class="white-text">Wri8es</span>
+            </div>
+            <button class="sidebar-close" onclick="toggleSidebar()">&times;</button>
+        </div>
+        <div class="sidebar-menu">
+            <a href="#" class="active" onclick="showPage('home'); return false;"><i class="fas fa-home"></i> Home (Videos)</a>
+            <a href="#" onclick="showPage('about'); return false;"><i class="fas fa-info-circle"></i> About Us</a>
+            <a href="#" onclick="showPage('contact'); return false;"><i class="fas fa-envelope"></i> Contact Us</a>
+            <a href="#" onclick="showPage('privacy'); return false;"><i class="fas fa-shield-alt"></i> Privacy Policy</a>
+            <a href="#" onclick="showPage('terms'); return false;"><i class="fas fa-file-contract"></i> Terms of Service</a>
+        </div>
+        <div class="sidebar-footer">
+            <p>&copy; 2026 Urdu Wri8es</p>
+            <p>Designed from Mobile</p>
+        </div>
+    </div>
+
+    <!-- MAIN HOME VIEW (Videos, playlists and standard portal) -->
+    <div id="home-view">
+        <!-- 2. Hero Header Section with Dynamic Logo, Designed Title & Subtitle -->
+        <header class="hero-header">
+            <!-- Separate Channel Art Banner Box (Bright, no overlays, YouTube style!) -->
+            <div id="channel-banner" class="channel-banner"></div>
+            
+            <div class="header-content">
+                <!-- Circular Glowing Logo - Wrapped in Clickable link to go back to main videos page -->
+                <a href="#" onclick="showPage('home'); return false;" style="text-decoration: none; outline: none; display: inline-block;">
+                    <img id="channel-logo" class="channel-logo" src="https://via.placeholder.com/110" alt="Logo" style="cursor: pointer;">
+                </a>
+                
+                <!-- Official Google YouTube Subscribe Button Widget with Dark Theme -->
+                <div class="yt-subscribe-widget-container">
+                    <script src="https://apis.google.com/js/platform.js"></script>
+                    <div class="g-ytsubscribe" data-channelid="UCPiqMR6Q5qzY_czxurWKRSA" data-layout="default" data-theme="dark" data-count="default"></div>
+                </div>
+
+                <!-- Designed Title (Urdu in Red, Wri8es in White) -->
+                <h1 class="designed-title" style="cursor: pointer;" onclick="showPage('home')">
+                    <span class="red-text">Urdu</span> <span class="white-text">Wri8es</span>
+                </h1>
+                
+                <!-- Small Subtitle in Neon Green -->
+                <p id="channel-welcome" class="welcome-subtitle">Welcome To Our Channel</p>
+
+                <!-- Dynamic Collapsible About Dropdown Button Centered -->
+                <button class="header-desc-toggle" onclick="toggleHeaderDesc(this)">
+                    About Our Channel <i class="fas fa-chevron-down" style="margin-left: 5px;"></i>
+                </button>
+
+                <!-- Sliding container with your exact formatted channel description! -->
+                <div id="header-full-desc" class="header-full-desc">
+                    <div class="desc-inner-content">
+                        <!-- Heading -->
+                        <p class="desc-heading">📖 Urdu Wri8es | Islamic Bayanat & Reminders</p>
+                        
+                        <!-- Arabic Salutation (Right Aligned) -->
+                        <p style="text-align: right; direction: rtl; font-size: 15px; color: #00ff88; font-weight: bold; margin-bottom: 12px;">السلام علیکم ورحمۃ اللہ وبرکاتہ</p>
+                        
+                        <!-- Para 1 -->
+                        <p>Urdu Wri8es mein aap sab ko khush aamdeed. Is channel par aap ko Quran-o-Hadith ki roshni mein Islamic bayanat, deeni naseehat, Sahaba-e-Kiram aur Buzurgan-e-Deen ke waqiat, mukammal bayan, Islamic Shorts aur rooh parwar maloomat Urdu zaban mein milengi.</p>
+                        
+                        <!-- Leaves list -->
+                        <ul class="leaves-list">
+                            <li>🌿 Islamic Bayanat</li>
+                            <li>🌿 Mukammal Deeni Bayanat</li>
+                            <li>🌿 Islamic Shorts</li>
+                            <li>🌿 Quran & Hadith Ki Baatein</li>
+                            <li>🌿 Sahaba-e-Kiram Ke Waqiat</li>
+                            <li>🌿 Deeni Naseehat Aur Islah-e-Aamal</li>
+                        </ul>
+                        
+                        <!-- Para 2 -->
+                        <p>Hamara maqsad Islam ki sahi taleemat ko asaan aur pur-asar andaaz mein logon tak pohanchana hai taake hum sab apni zindagi ko Quran-o-Sunnat ke mutabiq guzar saken.</p>
+                        
+                        <!-- Para 3 -->
+                        <p>🔔 Channel ko Subscribe karein aur bell icon zaroor dabayein taake har nayi video sab se pehle aap tak pohanch sake.<br>JazakAllah Khair</p>
+                        
+                        <!-- Email Link -->
+                        <p style="margin-top: 15px;">✉️ For Contact & Collaboration: <a href="mailto:Urduwriters92@gmail.com" style="color: #39a0ff; text-decoration: underline; font-weight: bold;">Urduwriters92@gmail.com</a></p>
+                        
+                        <!-- Quranic Quote -->
+                        <p class="quran-quote" style="margin-top: 20px; font-style: italic; text-align: center; color: #ff0000; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">"Aur nek kaamon mein ek doosre ki madad karo." (Quran)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Real-time Search Box -->
+            <div class="search-box-container">
+                <div class="search-input-wrapper">
+                    <i class="fa fa-search search-icon"></i>
+                    <input type="text" id="search-input" placeholder="Apni pasand ki video search karein...">
+                </div>
+            </div>
+        </header>
+
+        <!-- 4. Playlists/Category Scrolling Navigation Bar -->
+        <div class="category-scroll-container">
+            <div id="category-bar" class="category-bar">
+                <!-- Playlists dynamically load here -->
+            </div>
+        </div>
+
+        <!-- 5. Grid Switcher Bar (Dynamic Columns control) -->
+        <div class="switcher-bar">
+            <span id="current-category-name" class="category-title">All Videos</span>
+            <button id="grid-toggle-btn" class="grid-toggle-btn" onclick="toggleGridLayout()">
+                <i class="fas fa-th-large"></i> <span>2 Columns</span>
+            </button>
+        </div>
+
+        <!-- Main Container -->
+        <main class="container">
+            <!-- Loading Indicator -->
+            <div id="loading" class="loading">
+                <i class="fa fa-spinner fa-spin" style="margin-right: 8px;"></i> Videos load ho rahi hain...
+            </div>
+            
+            <!-- Video Grid Container -->
+            <div id="video-container" class="long-grid cols-1"></div>
+        </main>
+    </div> <!-- --- HOME VIEW ENDS --- -->
+
+    <!-- ==========================================================
+         --- DETAILED STATIC PAGES VIEWS (SPA ROUTER) ---
+         --- (HTML position fixed to load BEFORE the footer) ---
+    ========================================================== -->
+
+    <!-- ABOUT US VIEW -->
+    <div id="about-view" class="page-view" style="display: none;">
+        <h2>About Us - Urdu Wri8es</h2>
+        <p>Welcome to <strong>Urdu Wri8es</strong>, your ultimate online destination for high-quality, inspiring, and soul-stirring Islamic content. Our mission is to spread the beautiful, peaceful, and life-changing teachings of Islam to audiences worldwide through easily accessible Urdu lectures, moral stories, and short clips.</p>
+        <p>This website was created from mobile with 100% dedication to compiling our YouTube channel's best bayanat, including the life-changing lessons of Hazrat Umar (RA), the Islamic Tarbiyati Course, and spiritual lectures by Peer Ajmal Raza Qadri, all organized under one beautiful roof.</p>
+        <h3>Our Vision</h3>
+        <p>We believe in leveraging the power of technology to educate, inspire, and bring positive changes to people's daily lives. By providing structured, categorized playlists and a clean environment, we make it easy for you to learn and grow in your Deen.</p>
+        <button class="submit-btn" onclick="showPage('home')" style="width: auto; padding: 8px 20px; margin-top: 15px;">Back to Home</button>
+    </div>
+
+    <!-- CONTACT US VIEW -->
+    <div id="contact-view" class="page-view" style="display: none;">
+        <h2>Contact Us</h2>
+        <p>Do you have any questions, feedback, or suggestions for Urdu Wri8es? We would love to hear from you! Please fill out the form below, and our team will get back to you as soon as possible.</p>
+        
+        <form class="contact-form" onsubmit="handleContactSubmit(event)">
+            <div class="form-group">
+                <label for="c-name">Aapka Naam (Full Name)</label>
+                <input type="text" id="c-name" class="form-control" required placeholder="E.g., Muhammad Ali">
+            </div>
+            <div class="form-group">
+                <label for="c-email">Email Address</label>
+                <input type="email" id="c-email" class="form-control" required placeholder="E.g., name@example.com">
+            </div>
+            <div class="form-group">
+                <label for="c-msg">Aapka Message (Your Message)</label>
+                <textarea id="c-msg" class="form-control" rows="5" required placeholder="Apna message yahan likhein..."></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Send Message</button>
+        </form>
+
+        <div class="contact-info">
+            <p><i class="fas fa-envelope"></i> <strong>Email:</strong> Urduwriters92@gmail.com</p>
+            <p><i class="fab fa-youtube"></i> <strong>YouTube:</strong> @urduwri8es</p>
+        </div>
+    </div>
+
+    <!-- PRIVACY POLICY VIEW -->
+    <div id="privacy-view" class="page-view" style="display: none;">
+        <h2>Privacy Policy</h2>
+        <p>At Urdu Wri8es, accessible from our website, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Urdu Wri8es and how we use it.</p>
+        <h3>Information We Collect</h3>
+        <p>We do not require any user registration or personal details to browse our video portal. If you contact us directly via our contact form, we may receive your name and email address solely to reply to your queries.</p>
+        <h3>Cookies and Web Beacons</h3>
+        <p>Urdu Wri8es uses standard embedding from YouTube. YouTube and Google may use cookies and web beacons to serve personalized video suggestions, track view counts, and analyze visitor traffic. You can choose to disable cookies through your individual browser options.</p>
+        <h3>Consent</h3>
+        <p>By using our website, you hereby consent to our Privacy Policy and agree to its terms.</p>
+        <button class="submit-btn" onclick="showPage('home')" style="width: auto; padding: 8px 20px; margin-top: 15px;">Back to Home</button>
+    </div>
+
+    <!-- TERMS OF SERVICE VIEW -->
+    <div id="terms-view" class="page-view" style="display: none;">
+        <h2>Terms of Service</h2>
+        <p>Welcome to Urdu Wri8es. By accessing and using this website, you accept and agree to be bound by the terms and provision of this agreement.</p>
+        <h3>Content Ownership</h3>
+        <p>All videos, graphics, and branding assets displayed on this portal are the intellectual property of Urdu Wri8es and protected by copyright laws. You may not re-upload, sell, or commercialize any content from this site without prior written consent.</p>
+        <h3>Usage License</h3>
+        <p>Permission is granted to temporarily view the content on Urdu Wri8es for personal, non-commercial transitory viewing only.</p>
+        <h3>Disclaimer</h3>
+        <p>The materials on Urdu Wri8es are provided on an 'as is' basis. We make no warranties, expressed or implied, and hereby disclaim and negate all other warranties including, without limitation, implied warranties of merchantability.</p>
+        <button class="submit-btn" onclick="showPage('home')" style="width: auto; padding: 8px 20px; margin-top: 15px;">Back to Home</button>
+    </div>
+
+    <!-- 6. Footer Section (Bottom) - Global SEO Tags & Centered Socials -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-about">
+                <!-- Footer Header Brand Name is Clickable to go back to main videos page -->
+                <h3 style="margin-bottom: 10px; display: flex; align-items: center; font-size: 20px; font-weight: bold; color: #ffffff; cursor: pointer;" onclick="showPage('home')">
+                    <i class="fab fa-youtube" style="color: #ff0000; margin-right: 5px;"></i> 
+                    <span class="red-text">Urdu</span>&nbsp;<span class="white-text">Wri8es</span>
+                </h3>
+                
+                <!-- Global SEO Description in Footer -->
+                <p style="font-size: 13px; color: #aaaaaa; line-height: 1.6; margin-bottom: 15px;">
+                    Urdu Wri8es par aapko deen-e-Islam ke khoobsurat aur eeman-taza karne wale Urdu Islamic Bayanat, sabaq-amoz kahaniyan (Islamic Moral Stories), deeni lectures aur daily Islamic Shorts milengi. Hamara maqsad aap tak deen ki sahi maloomat ko pahonchana hai.
+                </p>
+                
+                <!-- Global SEO Tag Pills -->
+                <div class="seo-tags-container">
+                    <a href="https://youtube.com/channel/UCPiqMR6Q5qzY_czxurWKRSA" target="_blank" class="seo-tag">#UrduWri8es</a>
+                    <a href="https://youtube.com/channel/UCPiqMR6Q5qzY_czxurWKRSA" target="_blank" class="seo-tag">#IslamicBayanat</a>
+                    <a href="https://youtube.com/channel/UCPiqMR6Q5qzY_czxurWKRSA" target="_blank" class="seo-tag">#UrduIslamicVideos</a>
+                    <a href="https://youtube.com/channel/UCPiqMR6Q5qzY_czxurWKRSA" target="_blank" class="seo-tag">#DeeneIslam</a>
+                    <a href="https://youtube.com/channel/UCPiqMR6Q5qzY_czxurWKRSA" target="_blank" class="seo-tag">#IslamicShorts</a>
+                    <a href="https://youtube.com/channel/UCPiqMR6Q5qzY_czxurWKRSA" target="_blank" class="seo-tag">#IslamicMoralStories</a>
+                    <a href="https://youtube.com/channel/UCPiqMR6Q5qzY_czxurWKRSA" target="_blank" class="seo-tag">#UrduBayan</a>
+                </div>
+            </div>
+            
+            <!-- Centered Footer Social Section -->
+            <div class="footer-socials">
+                <!-- Social Action Labels and Icons dynamically load here -->
+                <div id="footer-socials" class="footer-icons"></div>
+            </div>
+        </div>
+        <!-- Copyright Section Brand Name is Clickable to go back to main videos page -->
+        <div class="footer-bottom">
+            <p>&copy; 2026 <span onclick="showPage('home')" style="cursor: pointer;"><span class="red-text" style="font-weight: bold;">Urdu</span> <span class="white-text" style="font-weight: bold;">Wri8es</span></span>. All Rights Reserved. Designed from Mobile.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript - Config, Dynamic Tabs, Playlists & Search Filter -->
+    <script>
+        // ==========================================================
+        //     --- 1. WEBSITE SETTINGS (BINA CODING BADLEIN) ---
+        // ==========================================================
+        
+        // Google Console se mili hui aapki API Key
+        const apiKey = "AIzaSyD17bLIZJcrPCuJig-CPgA6k87euO-vcCs";
+
+        // Apne Social Media Links (Khali "" chhodenge toh button automatic gayab ho jayega)
+        const socialLinks = {
+            youtube: "https://youtube.com/channel/UCPiqMR6Q5qzY_czxurWKRSA",
+            facebook: "https://www.facebook.com/profile.php?id=61573800753744", // Web-friendly link
+            instagram: "https://instagram.com/UrduWri8es",
+            tiktok: "https://tiktok.com/@UrduWri8es"
+        };
+
+        // Welcome Text aur Logo settings
+        const headerConfig = {
+            welcomeTitle: "Welcome To Our Channel",
+            customLogoUrl: "" // YouTube profile pic automatic load karne ke liye khali chhodein
+        };
+
+        // ==========================================================
+        //     --- 2. WEBSITE ENGINE CODE (ISE BADALNE KI ZAROORAT NAHI) ---
+        // ==========================================================
+        
+        const channelId = "UCPiqMR6Q5qzY_czxurWKRSA";
+        const channelSuffix = "PiqMR6Q5qzY_czxurWKRSA";
+
+        let playlists = [
+            { name: "All Videos", id: "UULF" + channelSuffix, type: "long" },
+            { name: "Shorts", id: "UUSH" + channelSuffix, type: "shorts" }
+        ];
+
+        const videoContainer = document.getElementById('video-container');
+        const loadingText = document.getElementById('loading');
+        const categoryBar = document.getElementById('category-bar');
+        const searchInput = document.getElementById('search-input');
+
+        let currentVideosList = []; 
+        let currentTab = 'long';
+        let currentColsState = 1; // 1, 2, or 4 column dynamic states
+
+        function getElementByLocalName(parent, localName) {
+            if (!parent) return null;
+            return Array.from(parent.children).find(node => node.localName === localName);
+        }
+
+        // --- HEADER DESCRIPTION DROPDOWN CONTROLLER ---
+        function toggleHeaderDesc(btn) {
+            const descPanel = document.getElementById('header-full-desc');
+            btn.classList.toggle('active');
+            
+            if (btn.classList.contains('active')) {
+                // Height calculate ho kar smooth slide-down hoga
+                descPanel.style.maxHeight = descPanel.scrollHeight + "px";
+            } else {
+                descPanel.style.maxHeight = "0px";
+            }
+        }
+
+        // --- HAMBURGER SIDEBAR TOGGLE ---
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
+
+        // --- DYNAMIC PAGE ROUTER (SPA STYLE) ---
+        function showPage(pageId) {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+
+            document.querySelectorAll('.sidebar-menu a').forEach(link => link.classList.remove('active'));
+
+            const homeView = document.getElementById('home-view');
+            const aboutView = document.getElementById('about-view');
+            const contactView = document.getElementById('contact-view');
+            const privacyView = document.getElementById('privacy-view');
+            const termsView = document.getElementById('terms-view');
+
+            homeView.style.display = 'none';
+            if (aboutView) aboutView.style.display = 'none';
+            if (contactView) contactView.style.display = 'none';
+            if (privacyView) privacyView.style.display = 'none';
+            if (termsView) termsView.style.display = 'none';
+
+            if (pageId === 'home') {
+                homeView.style.display = 'block';
+                document.querySelector('.sidebar-menu a[onclick*="home"]').classList.add('active');
+            } else {
+                const targetView = document.getElementById(pageId + '-view');
+                if (targetView) targetView.style.display = 'block';
+                const activeMenuLink = document.querySelector(`.sidebar-menu a[onclick*="${pageId}"]`);
+                if (activeMenuLink) activeMenuLink.classList.add('active');
+            }
+
+            window.scrollTo(0, 0);
+        }
+
+        // --- CONTACT FORM SUBMIT HANDLER ---
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            const name = document.getElementById('c-name').value;
+            const email = document.getElementById('c-email').value;
+            const msg = document.getElementById('c-msg').value;
+
+            alert(`Shukriya ${name}! Aapka message successfully receive ho gaya hai. Hum aap se jald hi rabta karenge.`);
+            document.querySelector('.contact-form').reset();
+            showPage('home');
+        }
+
+        // --- DYNAMIC GRID COLUMNS CONTROLLER ---
+        function toggleGridLayout() {
+            const btnIcon = document.querySelector('#grid-toggle-btn i');
+            const btnText = document.querySelector('#grid-toggle-btn span');
+
+            // Cycle logically: 1 -> 2 -> 4 -> 1
+            if (currentColsState === 1) {
+                currentColsState = 2;
+                videoContainer.classList.remove('cols-1', 'cols-4');
+                videoContainer.classList.add('cols-2');
+                btnIcon.className = "fas fa-th"; // multi-grid icon
+                if (btnText) btnText.textContent = "4 Columns";
+            } else if (currentColsState === 2) {
+                currentColsState = 4;
+                videoContainer.classList.remove('cols-1', 'cols-2');
+                videoContainer.classList.add('cols-4');
+                btnIcon.className = "fas fa-list"; // list layout icon
+                if (btnText) btnText.textContent = "1 Column";
+            } else {
+                currentColsState = 1;
+                videoContainer.classList.remove('cols-2', 'cols-4');
+                videoContainer.classList.add('cols-1');
+                btnIcon.className = "fas fa-th-large"; // 2-columns icon
+                if (btnText) btnText.textContent = "2 Columns";
+            }
+        }
+
+        // --- DYNAMIC SOCIAL ICONS & LABELS GENERATION ---
+        function renderSocialLinks() {
+            const navSocials = document.getElementById('nav-socials');
+            const footerSocials = document.getElementById('footer-socials');
+            
+            if (typeof socialLinks === 'undefined') return;
+
+            const configs = [
+                { key: 'youtube', icon: 'fab fa-youtube', class: 'yt', label: 'subscribe' },
+                { key: 'facebook', icon: 'fab fa-facebook-f', class: 'fb', label: 'follow' },
+                { key: 'instagram', icon: 'fab fa-instagram', class: 'insta', label: 'follow' },
+                { key: 'tiktok', icon: 'fab fa-tiktok', class: 'tt', label: 'follow' }
+            ];
+
+            navSocials.innerHTML = "";
+            footerSocials.innerHTML = "";
+
+            configs.forEach(cfg => {
+                const url = socialLinks[cfg.key];
+                if (url && url.trim() !== "") {
+                    const navLink = document.createElement('a');
+                    navLink.href = url;
+                    navLink.target = "_blank";
+                    navLink.classList.add('social-icon', cfg.class);
+                    navLink.innerHTML = `<i class="${cfg.icon}"></i>`;
+                    navSocials.appendChild(navLink);
+
+                    // Footer Link Container with permanent labels and classes
+                    const footerLinkContainer = document.createElement('div');
+                    footerLinkContainer.classList.add('footer-social-item');
+                    
+                    const labelClass = cfg.key === 'youtube' ? 'sub-label' : `${cfg.class}-label`;
+
+                    footerLinkContainer.innerHTML = `
+                        <span class="social-label ${labelClass}">${cfg.label}</span>
+                        <a href="${url}" target="_blank" class="f-social-icon ${cfg.class}">
+                            <i class="${cfg.icon}"></i>
+                        </a>
+                    `;
+                    footerSocials.appendChild(footerLinkContainer);
+                }
+            });
+        }
+
+        // --- DYNAMIC HEADER LOGO LOADER ---
+        async function loadHeaderDetails() {
+            const logoImg = document.getElementById('channel-logo');
+            const welcomeEl = document.getElementById('channel-welcome');
+            const heroHeader = document.querySelector('.hero-header');
+            const channelBanner = document.getElementById('channel-banner');
+
+            if (typeof headerConfig !== 'undefined') {
+                welcomeEl.textContent = headerConfig.welcomeTitle || "Welcome To Our Channel";
+                
+                if (headerConfig.customLogoUrl && headerConfig.customLogoUrl.trim() !== "") {
+                    logoImg.src = headerConfig.customLogoUrl;
+                    return; 
+                }
+            }
+
+            // Official Google API call to fetch BOTH snippet (Logo) and brandingSettings (Banner Art)
+            if (apiKey && !apiKey.includes("API_KEY")) {
+                const url = `https://www.googleapis.com/youtube/v3/channels?part=snippet,brandingSettings&id=${channelId}&key=${apiKey}`;
+                try {
+                    const response = await fetch(url);
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data && data.items && data.items[0]) {
+                            const item = data.items[0];
+                            const snippet = item.snippet;
+                            const branding = item.brandingSettings;
+                            
+                            // Set high-res circular logo
+                            const ytLogoUrl = snippet.thumbnails.high.url || snippet.thumbnails.default.url;
+                            logoImg.src = ytLogoUrl;
+
+                            // Set high-res dynamic Channel Art (Banner) in background
+                            if (branding && branding.image && branding.image.bannerExternalUrl) {
+                                const ytBannerUrl = branding.image.bannerExternalUrl + "=w1060";
+                                channelBanner.style.backgroundImage = `url('${ytBannerUrl}')`;
+                            } else if (branding && branding.image && branding.image.bannerImageUrl) {
+                                const ytBannerUrl = branding.image.bannerImageUrl;
+                                channelBanner.style.backgroundImage = `url('${ytBannerUrl}')`;
+                            }
+                        }
+                    }
+                } catch (err) {
+                    console.error("YT logo load error:", err);
+                }
+            }
+        }
+
+        // Fetch Playlists from Google API
+        async function fetchChannelPlaylists() {
+            const url = `https://www.googleapis.com/youtube/v3/playlists?part=snippet&channelId=${channelId}&maxResults=50&key=${apiKey}`;
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error("Google API error");
+                const data = await response.json();
+                if (data && data.items) {
+                    return data.items.map(item => {
+                        const title = item.snippet.title;
+                        const layoutType = title.toLowerCase().includes('shorts') || title.toLowerCase().includes('reels') ? 'shorts' : 'long';
+                        return { name: title, id: item.id, type: layoutType };
+                    });
+                }
+            } catch (e) {
+                console.error("Playlists error:", e);
+            }
+            return [];
+        }
+
+        // --- 100% SECURE & OFFICIAL YOUTUBE VIDEO LOADER ---
+        // Direct Google ke API server se video items fetch karna (Bypasses all proxies)
+        async function fetchYouTubeFeed(playlistId) {
+            const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistId}&maxResults=50&key=${apiKey}`;
+
+            const response = await fetch(url);
+            if (!response.ok) throw new Error("Google PlaylistItems API Failed");
+            const data = await response.json();
+            
+            if (data && data.items) {
+                return data.items.map(item => {
+                    const snippet = item.snippet;
+                    return {
+                        title: snippet.title || "",
+                        id: snippet.resourceId?.videoId || "",
+                        pubDate: snippet.publishedAt || "",
+                        description: snippet.description || ""
+                    };
+                }).filter(video => video.id); 
+            }
+            return [];
+        }
+
+        function renderCategoryPills() {
+            categoryBar.innerHTML = "";
+            playlists.forEach((pl, index) => {
+                const pill = document.createElement('button');
+                pill.classList.add('category-pill');
+                if (index === 0) pill.classList.add('active'); 
+                pill.textContent = pl.name;
+                pill.onclick = (e) => selectCategory(pl, e.target);
+                categoryBar.appendChild(pill);
+            });
+        }
+
+        async function selectCategory(playlist, pillElement) {
+            document.querySelectorAll('.category-pill').forEach(pill => pill.classList.remove('active'));
+            pillElement.classList.add('active');
+
+            // Category title update
+            document.getElementById('current-category-name').textContent = playlist.name;
+
+            loadingText.style.display = 'block';
+            videoContainer.innerHTML = "";
+            searchInput.value = ""; 
+
+            try {
+                const videos = await fetchYouTubeFeed(playlist.id);
+                loadingText.style.display = 'none';
+                currentVideosList = videos;
+                currentTab = playlist.type;
+                renderVideos(videos, playlist.type);
+            } catch (error) {
+                console.error("Playlist load error:", error);
+                loadingText.innerText = "Error: Videos load nahi ho sakein.";
+            }
+        }
+
+        // Initial Load
+        async function loadInitialContent() {
+            loadingText.style.display = 'block';
+            renderSocialLinks();
+            await loadHeaderDetails(); 
+            
+            try {
+                const autoPlaylists = await fetchChannelPlaylists();
+                if (autoPlaylists.length > 0) {
+                    playlists = [...playlists, ...autoPlaylists];
+                }
+
+                renderCategoryPills();
+                
+                const defaultPlaylist = playlists[0];
+                document.getElementById('current-category-name').textContent = defaultPlaylist.name;
+
+                const videos = await fetchYouTubeFeed(defaultPlaylist.id);
+                loadingText.style.display = 'none';
+                currentVideosList = videos;
+                currentTab = defaultPlaylist.type;
+                renderVideos(videos, defaultPlaylist.type);
+            } catch (error) {
+                console.error("Initial load error:", error);
+                loadingText.innerText = "Error: Videos load nahi ho sakein.";
+            }
+        }
+
+        function linkify(text) {
+            const urlRegex = /(https?:\/\/[^\s]+)/g;
+            return text.replace(urlRegex, function(url) {
+                return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+            });
+        }
+
+        function renderVideos(items, type) {
+            videoContainer.innerHTML = "";
+
+            if (items.length === 0) {
+                videoContainer.innerHTML = `<p class="no-videos">Koi video nahi mili.</p>`;
+                return;
+            }
+
+            if (type === 'shorts') {
+                videoContainer.className = "shorts-grid";
+            } else {
+                videoContainer.className = "long-grid";
+            }
+
+            // Always enforce current layout column state when rendering videos
+            videoContainer.classList.remove('cols-1', 'cols-2', 'cols-4');
+            videoContainer.classList.add('cols-' + currentColsState);
+
+            items.forEach(item => {
+                const formattedDate = new Date(item.pubDate).toLocaleDateString('en-US', { 
+                    day: 'numeric', 
+                    month: 'short', 
+                    year: 'numeric' 
+                });
+
+                const cleanDesc = item.description.trim();
+                const finalDescription = linkify(cleanDesc).replace(/\n/g, '<br>');
+
+                const videoCard = document.createElement('div');
+                videoCard.classList.add('video-card');
+
+                if (type === 'shorts') {
+                    videoCard.classList.add('short-card');
+                    videoCard.innerHTML = `
+                        <div class="shorts-wrapper">
+                            <iframe src="https://www.youtube.com/embed/${item.id}" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="video-info">
+                            <h2>${item.title}</h2>
+                        </div>
+                    `;
+                } else {
+                    videoCard.innerHTML = `
+                        <div class="video-wrapper">
+                            <iframe src="https://www.youtube.com/embed/${item.id}" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="video-info">
+                            <div class="title-bar">
+                                <h2>${item.title}</h2>
+                                <button class="expand-btn" onclick="toggleDescription(this)">▼</button>
+                            </div>
+                            <p class="upload-date">Published: ${formattedDate}</p>
+                            
+                            <div class="full-description">
+                                ${finalDescription || "No description available."}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                videoContainer.appendChild(videoCard);
+            });
+        }
+
+        function toggleDescription(btn) {
+            const card = btn.closest('.video-card');
+            const descPanel = card.querySelector('.full-description');
+            btn.classList.toggle('active');
+            descPanel.classList.toggle('expanded');
+        }
+
+        searchInput.addEventListener('input', function() {
+            const query = searchInput.value.toLowerCase().trim();
+            const filteredVideos = currentVideosList.filter(item => {
+                return item.title.toLowerCase().includes(query) || 
+                       item.description.toLowerCase().includes(query);
+            });
+            renderVideos(filteredVideos, currentTab);
+        });
+
+        loadInitialContent();
+    </script>
+
+</body>
+</html>
