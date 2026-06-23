@@ -635,6 +635,160 @@
         .video-card:hover .video-stat i {
             color: #ff0000;
         }
+        
+/* --- LIGHT MODE STYLE OVERRIDES (SAFE & CRISP) --- */
+        body.light-mode {
+            background-color: #f5f5f5 !important;
+            color: #121212 !important;
+        }
+        
+        body.light-mode .navbar,
+        body.light-mode .sidebar,
+        body.light-mode .desc-inner-content,
+        body.light-mode .video-card,
+        body.light-mode .page-view,
+        body.light-mode .footer {
+            background-color: #ffffff !important;
+            border-color: #dddddd !important;
+            color: #121212 !important;
+        }
+
+        /* Header background ko light mode mein white karne aur gradient khatam karne ke liye */
+        body.light-mode .hero-header {
+            background: #ffffff !important;
+            border-color: #dddddd !important;
+        }
+
+        body.light-mode .navbar {
+            border-bottom: 1px solid #e0e0e0 !important;
+        }
+
+        body.light-mode .logo,
+        body.light-mode .logo .white-text,
+        body.light-mode .designed-title .white-text,
+        body.light-mode .sidebar-menu a,
+        body.light-mode .page-view h2,
+        body.light-mode .footer-about h3,
+        body.light-mode .video-info h2,
+        body.light-mode .white-text { /* Fixed: "Wri8es" turn black in Light Mode everywhere */
+            color: #121212 !important;
+        }
+
+        /* Fixed: 3-line Hamburger Menu Icon turns black in Light Mode */
+        body.light-mode .menu-toggle {
+            color: #121212 !important;
+        }
+
+        /* Fixed: About Our Channel button turns white/light in Light Mode */
+        body.light-mode .header-desc-toggle {
+            background-color: #ffffff !important;
+            color: #121212 !important;
+            border-color: #dddddd !important;
+        }
+
+        /* Fixed: Search input turns white with dark text in Light Mode */
+        body.light-mode #search-input {
+            background-color: #ffffff !important;
+            color: #121212 !important;
+            border: 1px solid #cccccc !important;
+        }
+
+        body.light-mode .sidebar-menu a:hover, 
+        body.light-mode .sidebar-menu a.active {
+            background-color: #f0f0f0 !important;
+            color: #ff0000 !important;
+        }
+
+        body.light-mode .category-scroll-container {
+            background-color: #f5f5f5 !important;
+            border-top: 1px solid #e0e0e0 !important;
+            border-bottom: 1px solid #e0e0e0 !important;
+        }
+
+        body.light-mode .category-pill {
+            background-color: #ffffff !important;
+            color: #333333 !important;
+            border: 1px solid #dddddd !important;
+        }
+
+        body.light-mode .category-pill.active {
+            background-color: #121212 !important;
+            color: #ffffff !important;
+            border-color: #121212 !important;
+        }
+
+        body.light-mode .switcher-bar {
+            border-bottom: 1px solid #e0e0e0 !important;
+        }
+
+        body.light-mode .category-title {
+            color: #121212 !important;
+        }
+
+        body.light-mode .grid-toggle-btn {
+            background-color: #ffffff !important;
+            color: #555555 !important;
+            border: 1px solid #dddddd !important;
+        }
+
+        body.light-mode .video-card {
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08) !important;
+        }
+
+        body.light-mode .video-info p,
+        body.light-mode .hero-header p,
+        body.light-mode .footer p,
+        body.light-mode .page-view p,
+        body.light-mode .contact-info,
+        body.light-mode .desc-inner-content p {
+            color: #555555 !important;
+        }
+
+        body.light-mode .expand-btn {
+            color: #ff0000 !important;
+        }
+        body.light-mode .expand-btn.active {
+            color: #121212 !important;
+        }
+
+        body.light-mode .full-description {
+            border-top: 1px solid rgba(0, 0, 0, 0.08) !important;
+            color: #444444 !important;
+        }
+
+        body.light-mode .seo-tag {
+            background-color: rgba(0, 0, 0, 0.03) !important;
+            border: 1px solid rgba(0, 0, 0, 0.08) !important;
+            color: #555555 !important;
+        }
+
+        body.light-mode .f-social-icon {
+            background-color: #ffffff !important;
+            border: 1px solid #dddddd !important;
+            color: #555555 !important;
+        }
+
+        /* Fixed: Welcome text turns high contrast green in Light Mode */
+        body.light-mode .welcome-subtitle {
+            color: #27ae60 !important;
+        }
+
+        /* Welcome Subtitle high contrast green in Light Mode */
+        body.light-mode .welcome-subtitle {
+            color: #1e824c !important; /* Behtareen dark green */
+        }
+
+        /* Wri8es Text and Hamburger Menu turn dark in Light Mode */
+        body.light-mode .white-text,
+        body.light-mode #theme-toggle,
+        body.light-mode .theme-toggle,
+        body.light-mode .theme-toggle i {
+            color: #121212 !important;
+        }
+        /* Leaves list text turns dark grey/black in Light Mode */
+        body.light-mode .leaves-list li {
+            color: #333333 !important;
+        }
     </style>
 </head>
 <body>
@@ -651,8 +805,14 @@
                     <span class="red-text">Urdu</span>&nbsp;<span class="white-text">Wri8es</span>
                 </div>
             </div>
-            <!-- Social Icons dynamically load here -->
-            <div id="nav-socials" class="nav-socials"></div>
+               <div style="display: flex; align-items: center; gap: 15px;">
+                <!-- Dark/Light Mode Theme Toggle Icon -->
+                <div id="theme-toggle" class="theme-toggle" onclick="toggleTheme()" style="cursor: pointer; font-size: 18px; color: #ffffff;">
+                    <i class="fas fa-sun"></i>
+                </div>
+                <!-- Social Icons dynamically load here -->
+                <div id="nav-socials" class="nav-socials"></div>
+            </div>
         </div>
     </nav>
 
@@ -1334,6 +1494,7 @@
 
         // Initial Load
         async function loadInitialContent() {
+            applySavedTheme(); // Check and apply saved theme first!
             loadingText.style.display = 'block';
             renderSocialLinks();
             await loadHeaderDetails(); 
@@ -1490,6 +1651,35 @@
 
         // Run automatically on page load to apply saved view preference
         updateViewport();
+
+        // --- DYNAMIC LIGHT/DARK MODE SYSTEM ---
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.querySelector('#theme-toggle i');
+            
+            body.classList.toggle('light-mode');
+            
+            if (body.classList.contains('light-mode')) {
+                localStorage.setItem('theme', 'light');
+                themeIcon.className = "fas fa-moon"; // Switch icon to Moon
+            } else {
+                localStorage.setItem('theme', 'dark');
+                themeIcon.className = "fas fa-sun"; // Switch icon to Sun
+            }
+        }
+
+        function applySavedTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            const themeIcon = document.querySelector('#theme-toggle i');
+            
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-mode');
+                if (themeIcon) themeIcon.className = "fas fa-moon";
+            } else {
+                document.body.classList.remove('light-mode');
+                if (themeIcon) themeIcon.className = "fas fa-sun";
+            }
+        }
 
         loadInitialContent();
     </script>
