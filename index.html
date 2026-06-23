@@ -2,7 +2,8 @@
 <html lang="ur">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Updated with ID for dynamic switching -->
+    <meta name="viewport" id="viewport-tag" content="width=device-width, initial-scale=1.0">
     <title>Urdu Wri8es - Urdu Writers92 This is Website For Islamic Content</title>
    <!-- FontAwesome CDN for Social Icons -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -673,6 +674,8 @@
             <a href="#" onclick="showPage('privacy'); return false;"><i class="fas fa-shield-alt"></i> Privacy Policy</a>
             <a href="#" onclick="showPage('terms'); return false;"><i class="fas fa-file-contract"></i> Terms of Service</a>
             <a href="#" onclick="showPage('dmca'); return false;"><i class="fas fa-copyright"></i> DMCA Disclaimer</a>
+            <!-- NEW: Desktop / Mobile View Switcher Button (Placed right below DMCA) -->
+            <a href="#" id="view-mode-toggle" onclick="toggleViewMode(); return false;"><i class="fas fa-desktop"></i> <span>Desktop View</span></a>
         </div>
         <div class="sidebar-footer">
             <p>&copy; 2026 Urdu Wri8es</p>
@@ -1451,6 +1454,42 @@
             });
             renderVideos(filteredVideos, currentTab);
         });
+
+            // --- DYNAMIC VIEWPORT MODE SWITCHER (Desktop/Mobile View) ---
+        let isDesktopView = localStorage.getItem('forceDesktopView') === 'true';
+
+        function updateViewport() {
+            // Safe selector: Yeh bina kisi ID ke direct browser ke meta viewport ko dhoondega
+            const viewport = document.querySelector('meta[name="viewport"]');
+            const viewToggleBtn = document.getElementById('view-mode-toggle');
+            if (!viewport) return;
+            
+            const btnIcon = viewToggleBtn ? viewToggleBtn.querySelector('i') : null;
+            const btnText = viewToggleBtn ? viewToggleBtn.querySelector('span') : null;
+
+            if (isDesktopView) {
+                // Force desktop rendering (1024px width zoom-out)
+                viewport.setAttribute('content', 'width=1024, initial-scale=0.3, maximum-scale=5.0, user-scalable=yes');
+                if (btnIcon) btnIcon.className = "fas fa-mobile-alt";
+                if (btnText) btnText.textContent = "Mobile View";
+                localStorage.setItem('forceDesktopView', 'true');
+            } else {
+                // Restore standard responsive mobile rendering
+                viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes');
+                if (btnIcon) btnIcon.className = "fas fa-desktop";
+                if (btnText) btnText.textContent = "Desktop View";
+                localStorage.setItem('forceDesktopView', 'false');
+            }
+        }
+
+        function toggleViewMode() {
+            isDesktopView = !isDesktopView;
+            updateViewport();
+            toggleSidebar(); // Close sidebar menu automatically
+        }
+
+        // Run automatically on page load to apply saved view preference
+        updateViewport();
 
         loadInitialContent();
     </script>
