@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Urdu Wri8es - Urdu Writers92 This is Wapsite For The Islamic Content</title>
+    <title>Urdu Wri8es - Urdu Writers92 This is Website For Islamic Content</title>
    <!-- FontAwesome CDN for Social Icons -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
    <link rel="stylesheet" href="style.css">
@@ -601,6 +601,37 @@
             width: 15px;
             text-align: center;
         }
+        /* --- DYNAMIC VIDEO CARD STATISTICS STYLE --- */
+        .video-meta-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 6px;
+            font-size: 11px;
+            color: #888888; /* Soft grey text */
+        }
+
+        .video-stats-divider {
+            color: #444444;
+            font-weight: bold;
+        }
+
+        .video-stat {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .video-stat i {
+            font-size: 11px;
+            color: #888888;
+        }
+
+        /* Hovering highlights stats gently in red */
+        .video-card:hover .video-stat i {
+            color: #ff0000;
+        }
     </style>
 </head>
 <body>
@@ -798,7 +829,7 @@
         <h2>Privacy Policy</h2>
         <p>At Urdu Wri8es, accessible from our website, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Urdu Wri8es and how we use it.</p>
         <h3>Information We Collect</h3>
-        <p>We do not require any user registration or personal details to browse our video portal. If you contact us directly via our contact form, we may receive your name and email address solely to reply to your queries.</p>
+        <p>We do not require any user registration or personal details to browse our Video Portal. If you contact us directly via our contact form, we may receive your name and email address solely to reply to your queries.</p>
         <h3>Cookies and Web Beacons</h3>
         <p>Urdu Wri8es uses standard embedding from YouTube. YouTube and Google may use cookies and web beacons to serve personalized video suggestions, track view counts, and analyze visitor traffic. You can choose to disable cookies through your individual browser options.</p>
         <h3>Consent</h3>
@@ -1116,8 +1147,21 @@
             return [];
         }
 
+ // Helper function to format counts nicely (e.g. 154, 1.2K, 50K)
+        function formatCount(num) {
+            num = Number(num);
+            if (isNaN(num)) return "0";
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+            }
+            if (num >= 1000) {
+                return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+            }
+            return num.toString();
+        }
+
         // --- 100% SECURE & OFFICIAL YOUTUBE VIDEO LOADER ---
-        // Direct Google ke API server se video items fetch karna (Bypasses all proxies)
+        // Direct Google ke API server se video items aur unke real-time statistics fetch karna
         async function fetchYouTubeFeed(playlistId) {
             const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistId}&maxResults=50&key=${apiKey}`;
 
@@ -1125,18 +1169,53 @@
             if (!response.ok) throw new Error("Google PlaylistItems API Failed");
             const data = await response.json();
             
-            if (data && data.items) {
-                return data.items.map(item => {
-                    const snippet = item.snippet;
-                    return {
-                        title: snippet.title || "",
-                        id: snippet.resourceId?.videoId || "",
-                        pubDate: snippet.publishedAt || "",
-                        description: snippet.description || ""
-                    };
-                }).filter(video => video.id); 
+            if (!data.items || data.items.length === 0) return [];
+
+            const items = data.items.map(item => {
+                const snippet = item.snippet;
+                return {
+                    title: snippet.title || "",
+                    id: snippet.resourceId?.videoId || "",
+                    pubDate: snippet.publishedAt || "",
+                    description: snippet.description || ""
+                };
+            }).filter(video => video.id); 
+
+            const videoIds = items.map(video => video.id);
+            if (videoIds.length === 0) return [];
+
+            // Real-time Statistics (Views, Likes, Comments) Google `/videos` API se fetch karna
+            const statsUrl = `https://www.googleapis.com/youtube/v3/videos?part=statistics&id=${videoIds.join(',')}&key=${apiKey}`;
+            try {
+                const statsResponse = await fetch(statsUrl);
+                if (statsResponse.ok) {
+                    const statsData = await statsResponse.json();
+                    const statsMap = {};
+                    statsData.items.forEach(videoItem => {
+                        statsMap[videoItem.id] = videoItem.statistics;
+                    });
+
+                    items.forEach(video => {
+                        const stats = statsMap[video.id];
+                        if (stats) {
+                            video.views = formatCount(stats.viewCount || 0);
+                            video.likes = formatCount(stats.likeCount || 0);
+                            video.comments = formatCount(stats.commentCount || 0);
+                        } else {
+                            video.views = "0";
+                            video.likes = "0";
+                            video.comments = "0";
+                        }
+                    });
+                }
+            } catch (err) {
+                console.error("Failed to fetch video statistics:", err);
+                items.forEach(video => {
+                    video.views = "0"; video.likes = "0"; video.comments = "0";
+                });
             }
-            return [];
+
+            return items;
         }
 
         function renderCategoryPills() {
@@ -1260,7 +1339,15 @@
                                 <h2>${item.title}</h2>
                                 <button class="expand-btn" onclick="toggleDescription(this)">▼</button>
                             </div>
-                            <p class="upload-date">Published: ${formattedDate}</p>
+                            <div class="video-meta-row">
+                                <span class="upload-date">Published: ${formattedDate}</span>
+                                <span class="video-stats-divider">•</span>
+                                <span class="video-stat"><i class="far fa-eye"></i> ${item.views}</span>
+                                <span class="video-stats-divider">•</span>
+                                <span class="video-stat"><i class="far fa-thumbs-up"></i> ${item.likes}</span>
+                                <span class="video-stats-divider">•</span>
+                                <span class="video-stat"><i class="far fa-comment"></i> ${item.comments}</span>
+                            </div>
                             
                             <div class="full-description">
                                 ${finalDescription || "No description available."}
