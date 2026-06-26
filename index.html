@@ -820,6 +820,100 @@
         .page-view, #home-view {
             animation: pageFadeIn 0.4s ease-out forwards;
         }
+        
+        /* ==========================================================
+           --- NEW: COMPLETE FLOATING POPUPS SYSTEM CSS (Pake) ---
+           ========================================================== */
+        .verse-popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85); /* Background fully dim black */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* Sabse upar display hoga */
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+        
+        .verse-popup-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .verse-popup-content {
+            background-color: #1a1a1a;
+            border: 2px solid #ff0000; /* Glowing border */
+            box-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 30px 20px;
+            max-width: 380px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            transform: scale(0.8);
+            transition: transform 0.4s ease;
+        }
+        
+        .verse-popup-overlay.show .verse-popup-content {
+            transform: scale(1);
+        }
+        
+        .verse-close-btn {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: #888888;
+            font-size: 22px;
+            cursor: pointer;
+            outline: none;
+        }
+        
+        .verse-close-btn:hover {
+            color: #ff0000;
+        }
+        
+        .verse-icon {
+            font-size: 32px;
+            color: #ff0000;
+            margin-bottom: 10px;
+        }
+        
+        .verse-popup-content h3 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffffff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+        
+        .verse-action-btn {
+            background-color: #ff0000;
+            color: #ffffff;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(255, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+        
+        .verse-action-btn:hover {
+            background-color: #cc0000;
+            box-shadow: 0 4px 15px rgba(255, 0, 0, 0.5);
+            transform: translateY(-2px);
+        }
     </style>
 </head>
 <body>
@@ -1143,11 +1237,13 @@
             customLogoUrl: "" // YouTube profile pic automatic load karne ke liye khali chhodein
         };
         
-        // --- 3. AUTOMATIC EMAILJS AUTO-REPLY SETTINGS ---
-        // (Yahan apni copy ki hui Public Key aur Template ID paste kar dein)
+// --- 3. AUTOMATIC EMAILJS AUTO-REPLY SETTINGS ---
         const emailjsPublicKey = "QZaRqqISk9gwLgyKY";
         const emailjsServiceId = "service_su5vr8i"; // Aapki exact default Service ID
-        const emailjsTemplateId = "template_1ya5m0v";
+        const emailjsTemplateId = "template_1ya5m0v"; // User template
+        const emailjsAdminTemplateId = "template_6fd6jjc"; // Admin template (Naya ID yahan paste karein)
+
+        // ==========================================================
 
         // ==========================================================
         //     --- 2. WEBSITE ENGINE CODE (ISE BADALNE KI ZAROORAT NAHI) ---
@@ -1233,7 +1329,7 @@
         }
 
 
-// --- CONTACT FORM SUBMIT HANDLER WITH AUTOMATIC NO-REPLY EMAIL ---
+// --- CONTACT FORM SUBMIT HANDLER WITH CUSTOM GLOWING SUCCESS CARD (ENGLISH & FIXED CLOSE) ---
         function handleContactSubmit(event) {
             event.preventDefault();
             const name = document.getElementById('c-name').value;
@@ -1243,32 +1339,58 @@
             const submitBtn = event.target.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerText;
             
-            // Button loading state
             submitBtn.innerText = "Sending Message...";
             submitBtn.disabled = true;
 
             // Initialize EmailJS with your Public Key
             emailjs.init(emailjsPublicKey);
 
-            // Direct EmailJS Integration (No Proxy, 100% Legal)
-            emailjs.send(emailjsServiceId, emailjsTemplateId, {
+            // 1. User ko clean auto-reply bhejney ki request (Template 1)
+            const sendUserReply = emailjs.send(emailjsServiceId, emailjsTemplateId, {
                 from_name: name,
                 from_email: email,
                 message: msg
-            }).then(function() {
-                alert(`Shukriya ${name}! Aapka message successfully submit ho gaya hai aur aapki email (${email}) par automatic 'No-Reply' confirmation send kar di gayi hai.`);
+            });
+
+            // 2. Admin ko details aur user ka asli message bhejney ki request (Template 2)
+            const sendAdminNotification = emailjs.send(emailjsServiceId, emailjsAdminTemplateId, {
+                from_name: name,
+                from_email: email,
+                message: msg
+            });
+
+            // Dono requests ko aik sath run karna (Parallel Execution)
+            Promise.all([sendUserReply, sendAdminNotification]).then(function() {
+                // Custom Success Card open karna (English Version)
+                document.getElementById('success-user-name').innerHTML = `Thank you, <strong>${name}</strong>!`;
+                document.getElementById('success-modal-text').innerHTML = `Your message has been successfully submitted. An automatic "No-Reply" confirmation has been sent to your email (<strong>${email}</strong>).`;
+                
+                const successModal = document.getElementById('success-modal-overlay');
+                if (successModal) successModal.classList.add('show');
+                
                 document.querySelector('.contact-form').reset();
-                showPage('home');
             }).catch(function(error) {
-                console.error("EmailJS Error:", error);
-                // Agar internet error ho tab bhi local alert show ho
-                alert(`Shukriya ${name}! Aapka message successfully submit ho gaya hai.`);
+                console.error("Multi-email sending failed:", error);
+                document.getElementById('success-user-name').innerHTML = `Thank you, <strong>${name}</strong>!`;
+                document.getElementById('success-modal-text').textContent = "Your message has been successfully submitted.";
+                
+                const successModal = document.getElementById('success-modal-overlay');
+                if (successModal) successModal.classList.add('show');
+                
                 document.querySelector('.contact-form').reset();
-                showPage('home');
             }).finally(function() {
                 submitBtn.innerText = originalText;
                 submitBtn.disabled = false;
             });
+        }
+
+        // Success card ko close kar ke automatic Home par le jaane ka code (Fixed & Permanent!)
+        function closeSuccessModal() {
+            const successModal = document.getElementById('success-modal-overlay');
+            if (successModal) {
+                successModal.classList.remove('show');
+            }
+            showPage('home'); // Form submit hone ke baad direct home page par le jaye
         }
 
         // --- DYNAMIC GRID COLUMNS CONTROLLER ---
@@ -1710,6 +1832,17 @@
 
         loadInitialContent();
     </script>
+
+<!-- NEW: Custom Success Modal Card (Replaces ugly browser alert) -->
+    <div id="success-modal-overlay" class="verse-popup-overlay">
+        <div class="verse-popup-content" style="border-color: #00ff88; box-shadow: 0 0 25px rgba(0, 255, 136, 0.45);">
+            <button class="verse-close-btn" onclick="closeSuccessModal()">&times;</button>
+            <div class="verse-icon" style="color: #00ff88;"><i class="fas fa-check-circle"></i></div>
+            <h3 style="color: #00ff88;">Message Sent!</h3>
+            <p style="color: #ffffff; font-weight: bold; font-size: 14px; margin-bottom: 8px;"><span id="success-user-name">Thank you!</span></p>
+            <p id="success-modal-text" style="color: #cccccc; font-size: 13px; line-height: 1.6;">Your message has been successfully submitted. An automatic "No-Reply" confirmation has been sent to your email.</p>
+            <button class="verse-action-btn" onclick="closeSuccessModal()" style="background-color: #00ff88; color: #121212; box-shadow: 0 4px 10px rgba(0, 255, 136, 0.3);">Okay</button>
+        </div>
 
 </body>
 </html>
