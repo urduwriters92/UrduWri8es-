@@ -1328,10 +1328,34 @@
             window.scrollTo(0, 0);
         }
 
+// --- NEW: GLOBAL STORAGE FOR PENDING SUBMIT EVENT ---
+        let pendingContactEvent = null;
 
-// --- CONTACT FORM SUBMIT HANDLER WITH CUSTOM GLOWING SUCCESS CARD (ENGLISH & FIXED CLOSE) ---
+        // --- CONTACT FORM SUBMIT HANDLER (Triggers Warning Card First!) ---
         function handleContactSubmit(event) {
             event.preventDefault();
+            // Form event ko save karna taake agree karne ke baad bhej sakein
+            pendingContactEvent = event;
+
+            // Fauran Red Warning Popup Card ko active (show) karna
+            const warningModal = document.getElementById('warning-modal-overlay');
+            if (warningModal) warningModal.classList.add('show');
+        }
+
+        // Warning card ko close karne ka code
+        function closeWarningModal() {
+            const warningModal = document.getElementById('warning-modal-overlay');
+            if (warningModal) {
+                warningModal.classList.remove('show');
+            }
+            pendingContactEvent = null; // Clear pending data
+        }
+
+        // JAB USER "I AGREE & SEND" PAR CLICK KAREGA: (Actual sending starts here)
+        function confirmAndSendContact() {
+            if (!pendingContactEvent) return;
+
+            const event = pendingContactEvent;
             const name = document.getElementById('c-name').value;
             const email = document.getElementById('c-email').value.trim();
             const msg = document.getElementById('c-msg').value;
@@ -1339,6 +1363,10 @@
             const submitBtn = event.target.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerText;
             
+            // Warning popup ko close karna smoothly
+            closeWarningModal();
+
+            // Main form submit button loading state
             submitBtn.innerText = "Sending Message...";
             submitBtn.disabled = true;
 
@@ -1392,7 +1420,7 @@
             }
             showPage('home'); // Form submit hone ke baad direct home page par le jaye
         }
-
+        
         // --- DYNAMIC GRID COLUMNS CONTROLLER ---
         function toggleGridLayout() {
             const btnIcon = document.querySelector('#grid-toggle-btn i');
@@ -1843,6 +1871,27 @@
             <p id="success-modal-text" style="color: #cccccc; font-size: 13px; line-height: 1.6;">Your message has been successfully submitted. An automatic "No-Reply" confirmation has been sent to your email.</p>
             <button class="verse-action-btn" onclick="closeSuccessModal()" style="background-color: #00ff88; color: #121212; box-shadow: 0 4px 10px rgba(0, 255, 136, 0.3);">Okay</button>
         </div>
+    </div>
+
+    <!-- NEW: Red Warning Modal Card (Shows BEFORE sending) -->
+    <div id="warning-modal-overlay" class="verse-popup-overlay">
+        <div class="verse-popup-content" style="border-color: #ff0000; box-shadow: 0 0 25px rgba(255, 0, 0, 0.45);">
+            <button class="verse-close-btn" onclick="closeWarningModal()">&times;</button>
+            <div class="verse-icon" style="color: #ff0000;"><i class="fas fa-exclamation-triangle"></i></div>
+            <h3 style="color: #ff0000;">Security Warning!</h3>
+            <p style="color: #ffffff; font-weight: bold; font-size: 13px; line-height: 1.6; text-align: left; margin-bottom: 12px;">
+                Please ensure you are using your <strong>legal full name</strong> and <strong>authentic email address</strong>. 
+            </p>
+            <p style="color: #cccccc; font-size: 12px; line-height: 1.6; text-align: left; margin-bottom: 5px;">
+                Submitting reports or messages with fraudulent, temporary, or fake identity details is strictly prohibited. If any fraudulent activity or fake email usage is detected, your IP address and submitted details will be reported for abuse.
+            </p>
+            <!-- Cancel and Send Buttons -->
+            <div style="display: flex; gap: 10px; margin-top: 20px;">
+                <button class="submit-btn" onclick="closeWarningModal()" style="background-color: #222; color: #ffffff; border: 1px solid #444; flex: 1;">Cancel</button>
+                <button class="submit-btn" onclick="confirmAndSendContact()" style="background-color: #ff0000; color: #ffffff; flex: 1;">I Agree & Send</button>
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>
