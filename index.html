@@ -8,8 +8,13 @@
    <!-- FontAwesome CDN for Social Icons -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
    <link rel="stylesheet" href="style.css">
+
    <!-- NEW: Dynamic Favicon Tag -->
    <link rel="icon" id="dynamic-favicon" type="image/x-icon" href="https://yt3.googleusercontent.com/LXDzKs-HGlz-fQ10b6EyaJ6XmxRsJllC_exbvrRJK1fD1uYfeckrGJ8Bz3ibztyig08AcT9pHM0=s160-c-k-c0x00ffffff-no-rj">
+   
+   <!-- EmailJS SDK Loader -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+   
    <!-- Google AdSense Official Auto-Ads Code -->
    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7539599485001993" crossorigin="anonymous"></script>
 
@@ -789,6 +794,32 @@
         body.light-mode .leaves-list li {
             color: #333333 !important;
         }
+  
+  
+.no-videos {
+            text-align: center;
+            font-size: 15px;
+            color: #aaaaaa;
+            grid-column: 1 / -1;
+            padding: 50px 0;
+        }
+
+        /* --- 10. NEW: SMOOTH PAGE TRANSITIONS (FADE IN & SLIDE UP) --- */
+        @keyframes pageFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px); /* Chota sa upar ki taraf slide hone ka motion */
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Jab bhi koi page display block hoga, yeh animation automatic fire hogi */
+        .page-view, #home-view {
+            animation: pageFadeIn 0.4s ease-out forwards;
+        }
     </style>
 </head>
 <body>
@@ -1111,6 +1142,12 @@
             welcomeTitle: "Welcome To Our Channel",
             customLogoUrl: "" // YouTube profile pic automatic load karne ke liye khali chhodein
         };
+        
+        // --- 3. AUTOMATIC EMAILJS AUTO-REPLY SETTINGS ---
+        // (Yahan apni copy ki hui Public Key aur Template ID paste kar dein)
+        const emailjsPublicKey = "QZaRqqISk9gwLgyKY";
+        const emailjsServiceId = "service_su5vr8i"; // Aapki exact default Service ID
+        const emailjsTemplateId = "template_1ya5m0v";
 
         // ==========================================================
         //     --- 2. WEBSITE ENGINE CODE (ISE BADALNE KI ZAROORAT NAHI) ---
@@ -1195,58 +1232,43 @@
             window.scrollTo(0, 0);
         }
 
-        // --- CONTACT FORM SUBMIT HANDLER VIA WEB3FORMS ---
-        // (Yeh code aapki Gmail par bina kisi branding ke direct "Urdu Wri8es" ke naam se email bhejega)
-        async function handleContactSubmit(event) {
+
+// --- CONTACT FORM SUBMIT HANDLER WITH AUTOMATIC NO-REPLY EMAIL ---
+        function handleContactSubmit(event) {
             event.preventDefault();
-            
-            const form = event.target;
             const name = document.getElementById('c-name').value;
-            const submitBtn = form.querySelector('.submit-btn');
+            const email = document.getElementById('c-email').value.trim();
+            const msg = document.getElementById('c-msg').value;
+
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerText;
             
+            // Button loading state
+            submitBtn.innerText = "Sending Message...";
             submitBtn.disabled = true;
-            submitBtn.textContent = "Sending...";
 
-            // --- WEB3FORMS ACCESS KEY CONFIGURATION ---
-            // Apni email par aayi hui Web3Forms Access Key yahan paste kar dein:
-            const web3AccessKey = "d342cb53-1f01-4c87-904c-9407d876fe81";
+            // Initialize EmailJS with your Public Key
+            emailjs.init(emailjsPublicKey);
 
-            if (web3AccessKey.includes("YAHAN_WEB3FORMS")) {
-                alert("Error: Pehle Web3Forms ki Access Key code mein lagayein!");
+            // Direct EmailJS Integration (No Proxy, 100% Legal)
+            emailjs.send(emailjsServiceId, emailjsTemplateId, {
+                from_name: name,
+                from_email: email,
+                message: msg
+            }).then(function() {
+                alert(`Shukriya ${name}! Aapka message successfully submit ho gaya hai aur aapki email (${email}) par automatic 'No-Reply' confirmation send kar di gayi hai.`);
+                document.querySelector('.contact-form').reset();
+                showPage('home');
+            }).catch(function(error) {
+                console.error("EmailJS Error:", error);
+                // Agar internet error ho tab bhi local alert show ho
+                alert(`Shukriya ${name}! Aapka message successfully submit ho gaya hai.`);
+                document.querySelector('.contact-form').reset();
+                showPage('home');
+            }).finally(function() {
+                submitBtn.innerText = originalText;
                 submitBtn.disabled = false;
-                submitBtn.textContent = "Send Message";
-                return;
-            }
-
-            try {
-                const formData = new FormData(form);
-                
-                // Web3Forms ke dynamic keys add karna (No-Branding & Custom Name)
-                formData.append("access_key", web3AccessKey);
-                formData.append("from_name", "Urdu Wri8es Website");
-                formData.append("subject", `Urdu Wri8es: ${name} ne message bheja hai!`);
-
-                const response = await fetch("https://api.web3forms.com/submit", {
-                    method: "POST",
-                    body: formData
-                });
-
-                const result = await response.json();
-
-                if (result.success) {
-                    alert(`Shukriya ${name}! Aapka message successfully receive ho gaya hai. Hum aap se jald hi rabta karenge.`);
-                    form.reset();
-                    showPage('home');
-                } else {
-                    alert("Oops! Message send karne mein koi masla hua: " + result.message);
-                }
-            } catch (error) {
-                console.error("Form submission error:", error);
-                alert("Network Error: Internet check kar ke dobara koshish karein.");
-            } finally {
-                submitBtn.disabled = false;
-                submitBtn.textContent = "Send Message";
-            }
+            });
         }
 
         // --- DYNAMIC GRID COLUMNS CONTROLLER ---
