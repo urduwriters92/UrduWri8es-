@@ -915,6 +915,134 @@
             box-shadow: 0 4px 15px rgba(255, 0, 0, 0.5);
             transform: translateY(-2px);
         }
+        
+        /* --- ULTIMATE PREMIUM ISLAMIC POPUP DESIGN --- */
+        .verse-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 10, 10, 0.85); /* Darker backdrop */
+            backdrop-filter: blur(12px); /* Premium heavy blur */
+            z-index: 9999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .verse-overlay.show {
+            display: block;
+            opacity: 1;
+        }
+        .verse-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 92%;
+            max-width: 480px;
+            background-color: #161616; /* Deep dark background */
+            border: 1px solid rgba(255, 215, 0, 0.2); /* Subtle Gold Border */
+            border-radius: 16px; /* Elegant rounded corners */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.05); /* Soft gold glow */
+            padding: 30px 24px;
+            z-index: 10000;
+            text-align: center;
+            display: none;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1); /* Ultra smooth snappy bounce */
+        }
+        .verse-popup.show {
+            display: block;
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .verse-header {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .verse-header h3 {
+            font-size: 14px;
+            font-weight: 800;
+            color: #ffd700; /* Gold Header */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .verse-close-x {
+            position: absolute;
+            top: -15px;
+            right: -5px;
+            background: none;
+            border: none;
+            color: #888888;
+            font-size: 20px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            outline: none;
+        }
+        .verse-close-x:hover {
+            color: #ff0000;
+        }
+        .verse-divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ffd700, transparent);
+            margin: 8px auto 0 auto;
+        }
+        .verse-arabic {
+            font-family: 'Noto Naskh Arabic', Georgia, serif;
+            font-size: 22px; /* Larger Arabic */
+            line-height: 2;
+            color: #ffffff; /* Elegant white for holy script */
+            direction: rtl;
+            margin-bottom: 18px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+        }
+        .verse-translation {
+            font-size: 14px;
+            color: #dddddd;
+            line-height: 1.7;
+            font-style: italic;
+            margin-bottom: 18px;
+            padding: 0 10px;
+        }
+        .verse-reference {
+            font-size: 11px;
+            font-weight: 700;
+            color: #ffd700; /* Gold Reference */
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            background-color: rgba(255, 215, 0, 0.05);
+            padding: 4px 12px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+        .verse-footer {
+            margin-top: 25px;
+        }
+        /* Elegant gold-themed action button */
+        .verse-btn {
+            background: linear-gradient(135deg, #ffd700, #ffaa00);
+            color: #121212;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 25px;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+            outline: none;
+        }
+        .verse-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
+        }
+        
     </style>
 </head>
 <body>
@@ -1214,6 +1342,37 @@
             <p>&copy; 2026 <span onclick="showPage('home')" style="cursor: pointer;"><span class="red-text" style="font-weight: bold;">Urdu</span> <span class="white-text" style="font-weight: bold;">Wri8es</span></span>. All Rights Reserved. Designed By Urduwriters92.</p>
         </div>
     </footer>
+    
+        <!-- DYNAMIC FLOATING VERSE OF THE DAY POPUP -->
+    <!-- (Maine onclick="closeVersePopup()" ko hata diya hai taake user ko button dabhana hi pade) -->
+    <div id="verse-overlay" class="verse-overlay"></div>
+    <div id="verse-popup" class="verse-popup">
+        <div class="verse-header">
+            <h3><i class="fas fa-star" style="color: #ffd700; margin-right: 5px;"></i> VERSE OF THE DAY <i class="fas fa-star" style="color: #ffd700; margin-left: 5px;"></i></h3>
+            <!-- Top Right Cross (✕) Close Button -->
+            <button class="verse-close-x" onclick="closeVersePopup()">&times;</button>
+            <div class="verse-divider"></div>
+        </div>
+        <div class="verse-body">
+            <!-- Holy Arabic Text -->
+            <p id="verse-arabic" class="verse-arabic">Loading...</p>
+            <!-- Translation -->
+            <p id="verse-translation" class="verse-translation">Loading...</p>
+            <!-- Source Reference -->
+            <span id="verse-reference" class="verse-reference">Loading...</span>
+            
+            <!-- NEW: Reassuring Note for SEO & Trust -->
+            <p style="font-size: 11px !important; color: #888888 !important; margin-top: 22px !important; margin-bottom: 0px !important; text-align: center; font-style: normal;">
+                Urdu Wri8es ki taraf se aap ke liye rozana ek sabaq-amoz deeni tohfa
+            </p>
+        </div>
+        <div class="verse-footer">
+            <!-- Premium Gold Gradient Button with Heart & Action Text -->
+            <button class="verse-btn" onclick="closeVersePopup()">
+                <i class="fas fa-heart" style="color: #ff0000; margin-right: 6px;"></i> JazakAllah, Enter Website
+            </button>
+        </div>
+    </div>
 
     <!-- JavaScript - Config, Dynamic Tabs, Playlists & Search Filter -->
     <script>
@@ -1859,7 +2018,170 @@
             }
         }
 
+       // --- DYNAMIC VERSE OF THE DAY DATA ARRAY (20 AUTHENTIC QURAN & SAHIH HADEES) ---
+        // (Aap isme niche bilkul isi tarah copy-paste kar ke aaram se 300+ Hadees barha sakte hain!)
+        const versesList = [
+            {
+                arabic: "إِنَّ مَعَ الْعُسْرِ يُسْرًا",
+                translation: "\"Bila-shubah mushkil ke sath aasani hai.\"",
+                reference: "Al-Quran (Surah Ash-Sharh: 6)"
+            },
+            {
+                arabic: "وَتَوَكَّلْ عَلَى الْحَيِّ الَّذِي لَا يَمُوتُ",
+                translation: "\"Aur us Hamesha Zinda Rehne wale (Rab) par bharosa karein jise kabhi maut nahi aayegi.\"",
+                reference: "Al-Quran (Surah Al-Furqan: 58)"
+            },
+            {
+                arabic: "إِنَّ اللَّهَ مَعَ الصَّابِرِينَ",
+                translation: "\"Beshak Allah sabar karne walon ke sath hai.\"",
+                reference: "Al-Quran (Surah Al-Baqarah: 153)"
+            },
+            {
+                arabic: "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ",
+                translation: "\"Suno! Allah ke zikar se hi dilon ko sukoon milta hai.\"",
+                reference: "Al-Quran (Surah Ar-Ra'd: 28)"
+            },
+            {
+                arabic: "وَقُل رَّبِّ زِدْنِي عِلْمًا",
+                translation: "\"Aur (dua) kaho: Ae mere Rab! Mere ilm mein izafa farma.\"",
+                reference: "Al-Quran (Surah Taha: 114)"
+            },
+            {
+                arabic: "ادْعُونِي أَسْتَجِبْ لَكُمْ",
+                translation: "\"Tum mujhe pukaro, Main tumhari dua qabool karunga.\"",
+                reference: "Al-Quran (Surah Ghafir: 60)"
+            },
+            {
+                arabic: "إِنَّ رَبِّي قَرِيبٌ مُّجِيبٌ",
+                translation: "\"Beshak mera Rab qareeb hai aur duayein qabool karne wala hai.\"",
+                reference: "Al-Quran (Surah Hud: 61)"
+            },
+            {
+                arabic: "وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰ",
+                translation: "\"Aur anqareeb aapka Rab aapko itna dega ke aap khush ho jayenge.\"",
+                reference: "Al-Quran (Surah Ad-Duha: 5)"
+            },
+            {
+                arabic: "وَمَن يَتَّقِ اللَّهَ يَجْعَل لَّهُ مَخْرَجًا",
+                translation: "\"Aur jo Allah se darega (taqwa ikhtiyar karega), Allah uske liye nikalne ka rasta bana dega.\"",
+                reference: "Al-Quran (Surah At-Talaq: 2)"
+            },
+            {
+                arabic: "فَإِنِّي قَرِيبٌ",
+                translation: "\"Ae nabi! Jab mere bande aap se mere baare mein poochein, toh keh dein: Main qareeb hoon.\"",
+                reference: "Al-Quran (Surah Al-Baqarah: 186)"
+            },
+            {
+                arabic: "إِنَّ أَكْرَمَكُمْ عِندَ اللَّهِ أَتْقَاكُمْ",
+                translation: "\"Beshak Allah ke nazdeek tum mein sabse zyada izzat wala woh hai jo sabse zyada parhezgar hai.\"",
+                reference: "Al-Quran (Surah Al-Hujurat: 13)"
+            },
+            {
+                arabic: "الدَّالُّ عَلَى الْخَيْرِ كَفَاعِلِهِ",
+                translation: "\"Neki ki rah dikhane wale ko bhi neki karne wale ke barabar sawab milta hai.\"",
+                reference: "Al-Hadees (Sahih Muslim: 1893)"
+            },
+            {
+                arabic: "إِنَّمَا الأَعْمَالُ بِالنِّيَّاتِ",
+                translation: "\"Beshak aamal ka daromadar niyyaton par hai.\"",
+                reference: "Al-Hadees (Sahih Bukhari: 1)"
+            },
+            {
+                arabic: "الْمُؤْمِنُ مِرْآةُ الْمُؤْمِنِ",
+                translation: "\"Momin, momin ka ayna hai (ek doosre ki khamiyan pyaar se sahi karte hain).\"",
+                reference: "Al-Hadees (Abu Dawud: 4918)"
+            },
+            {
+                arabic: "الْكَلِمَةُ الطَّيِّبَةُ صَدَقَةٌ",
+                translation: "\"Achi aur meethi baat kehna bhi sadqah hai.\"",
+                reference: "Al-Hadees (Sahih Bukhari: 2989)"
+            },
+            {
+                arabic: "مَنْ لاَ يَرْحَمِ النَّاسَ لاَ يَرْحَمْهُ اللَّهُ",
+                translation: "\"Jo logon par raham nahi karta, Allah us par raham nahi farmata.\"",
+                reference: "Al-Hadees (Sahih Muslim: 2319)"
+            },
+            {
+                arabic: "إِنَّ اللَّهَ يُحِبُّ إِذَا عَمِلَ أَحَدُكُمْ عَمَلًا أَنْ يُتْقِنَهُ",
+                translation: "\"Beshak Allah pasand karta hai ke jab tum mein se koi kaam karein, toh use khubsoorat aur mukammal tareeqe se karein.\"",
+                reference: "Al-Hadees (Tabarani: 891)"
+            },
+            {
+                arabic: "خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ",
+                translation: "\"Tum mein se sabse behtar woh hai jo Quran seekhe aur doosron ko sikhaye.\"",
+                reference: "Al-Hadees (Sahih Bukhari: 5027)"
+            },
+            {
+                arabic: "الدِّينُ النَّصِيحَةُ",
+                translation: "\"Deen (deen-e-Islam) سراسر khair-khwahi ka naam hai.\"",
+                reference: "Al-Hadees (Sahih Muslim: 55)"
+            },
+            {
+                arabic: "إِنَّ أَحَبَّكُمْ إِلَيَّ أَحْسَنُكُمْ أَخْلاَقًا",
+                translation: "\"Beshak tum mein se mujhe sabse zyada pyara woh hai jiska ikhlaq (akhlaq) sabse accha ho.\"",
+                reference: "Al-Hadees (Sahih Bukhari: 3759)"
+            }
+        ];
+
+        // --- UPGRADED NON-REPEATING POPUP ENGINE ---
+        // Yeh local memory (LocalStorage) ka use kar ke lagatar (consecutively) repeat hone ko 100% rok dega!
+        function initVersePopup() {
+            const overlay = document.getElementById('verse-overlay');
+            const popup = document.getElementById('verse-popup');
+            
+            if (!overlay || !popup) return;
+
+            // Pichli baar dikhaye gaye verse ka index read karna
+            let lastIndex = parseInt(localStorage.getItem('lastVerseIndex'));
+            let randomIndex;
+            
+            // Loop jo 100% ensure karega ke lagatar do refreshes par SAME index na aaye!
+            do {
+                randomIndex = Math.floor(Math.random() * versesList.length);
+            } while (randomIndex === lastIndex && versesList.length > 1);
+            
+            // Naya index local storage mein save karna
+            localStorage.setItem('lastVerseIndex', randomIndex);
+            
+            const selectedVerse = versesList[randomIndex];
+
+            // Fields populate karna
+            document.getElementById('verse-arabic').textContent = selectedVerse.arabic;
+            document.getElementById('verse-translation').textContent = selectedVerse.translation;
+            document.getElementById('verse-reference').textContent = selectedVerse.reference;
+
+            // Website khulne ke 2 seconds baad popup smoothly samne aayega
+            setTimeout(() => {
+                overlay.style.display = 'block';
+                popup.style.display = 'block';
+                
+                setTimeout(() => {
+                    overlay.classList.add('show');
+                    popup.classList.add('show');
+                }, 50);
+            }, 2000); 
+        }
+
+        // --- CLOSE POPUP FUNCTION ---
+        function closeVersePopup() {
+            const overlay = document.getElementById('verse-overlay');
+            const popup = document.getElementById('verse-popup');
+
+            if (!overlay || !popup) return;
+
+            overlay.classList.remove('show');
+            popup.classList.remove('show');
+
+            // Slide transition complete hone ke baad display close karna (400ms)
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                popup.style.display = 'none';
+            }, 400);
+        }
+
+        // Website load hone par functions run karna
         loadInitialContent();
+        initVersePopup(); // Dynamic popup start!
     </script>
 
 <!-- NEW: Custom Success Modal Card (Replaces ugly browser alert) -->
@@ -1893,6 +2215,6 @@
             </div>
         </div>
     </div>
-
+    
 </body>
 </html>
