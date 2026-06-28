@@ -1043,6 +1043,116 @@
             box-shadow: 0 6px 20px rgba(255, 215, 0, 0.4);
         }
         
+       /* --- 3-DOT DROPDOWN MENU STYLE --- */
+        .dots-menu {
+            position: fixed;
+            top: 55px;
+            right: 15px;
+            background-color: #1a1a1a;
+            border: 1px solid #333333;
+            border-radius: 8px;
+            width: 195px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+            z-index: 2001; /* Keep above header elements */
+            display: none; /* Default hidden */
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .dots-menu.active {
+            display: flex;
+        }
+        .dots-menu a {
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 15px;
+            font-size: 13px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+            transition: all 0.2s ease;
+        }
+        .dots-menu a:hover {
+            background-color: #222222;
+            color: #ff0000;
+        }
+        .dots-menu a i {
+            width: 15px;
+            text-align: center;
+        }
+
+        /* --- SCRATCH CARD CONTAINER DESIGN --- */
+        .scratch-card-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            height: 250px;
+            margin: 20px auto;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: #111111;
+            border: 2px solid #ff0000;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.4); /* Neon Red Glow */
+        }
+
+        /* Underneath Verse Content styling */
+        .scratch-verse-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 1;
+            overflow-y: auto; /* Scroll if text is long */
+        }
+
+        .scratch-verse-arabic {
+            font-size: 18px !important;
+            color: #00ff88 !important; /* Glowing Green Arabic */
+            font-weight: bold;
+            margin-bottom: 12px !important;
+            line-height: 1.6;
+            direction: rtl;
+        }
+
+        .scratch-verse-translation {
+            font-size: 13px !important;
+            color: #ffffff !important;
+            line-height: 1.5 !important;
+            margin-bottom: 8px !important;
+        }
+
+        .scratch-verse-reference {
+            font-size: 11px !important;
+            color: #888888 !important;
+            font-style: italic;
+        }
+
+        /* Canvas overlay on top - Added 3D Peel Animation */
+        .scratch-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            cursor: crosshair;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease-out; /* Smooth sliding & fading */
+        }
+
+        /* Peel animation class when trigger button is clicked */
+        .scratch-canvas.slide-out {
+            transform: translateX(120%) rotate(5deg) !important; /* Slide right with 5deg tilt */
+            opacity: 0 !important;
+        }
+        
     </style>
 </head>
 <body>
@@ -1064,8 +1174,12 @@
                 <div id="theme-toggle" class="theme-toggle" onclick="toggleTheme()" style="cursor: pointer; font-size: 18px; color: #ffffff;">
                     <i class="fas fa-sun"></i>
                 </div>
+               <!-- Social Icons & 3-Dot Icon Container -->
+            <div style="display: flex; align-items: center; gap: 15px;">
                 <!-- Social Icons dynamically load here -->
                 <div id="nav-socials" class="nav-socials"></div>
+                <!-- 3-Dot Icon (Simple styled placeholder) -->
+                <div class="menu-dots-toggle" onclick="toggleDotsMenu()"><i class="fas fa-ellipsis-v"></i></div>
             </div>
         </div>
     </nav>
@@ -1298,6 +1412,44 @@
         <p>Upon receipt of a valid infringement notification, we will take immediate action to block the embedded link within <strong>24 to 48 hours</strong>.</p>
         <p>✉️ Contact Email: <a href="mailto:Urduwriters92@gmail.com" style="color: #39a0ff; text-decoration: underline; font-weight: bold;">dmca@urduwriters92.online</a></p>
         <button class="submit-btn" onclick="showPage('home')" style="width: auto; padding: 8px 20px; margin-top: 15px;">Back to Home</button>
+    </div>
+    
+    <!-- 1. The 3-Dot Dropdown Menu (If not already present) -->
+    <div id="dots-menu" class="dots-menu">
+        <a href="#" onclick="showPage('scratch-card'); return false;"><i class="fas fa-magic"></i> Daily Scratch Card</a>
+    </div>
+
+   <!-- 2. NEW: The Scratch Card Page View (Static Page) -->
+    <div id="scratch-card-view" class="page-view" style="display: none; text-align: center;">
+        <!-- Brand Designed Header Plate -->
+        <h2 class="designed-title" style="margin-bottom: 5px;"><span class="red-text">Interactive</span> <span class="white-text">Scratch Card</span></h2>
+        <p class="designed-subtitle-plate" style="font-size: 13px; color: #aaaaaa; margin-bottom: 25px; line-height: 1.6;">Apni finger (ungli) se niche diye gaye silver card ko **scratch (ghisey)** karein aur aaj ki sabaq-amoz Ayat / Hadees ko reveal karein!</p>
+        
+        <!-- Scratch Card Outer Container -->
+        <div class="scratch-card-container">
+            <!-- Underneath Content (The actual verse) -->
+            <div id="scratch-verse-content" class="scratch-verse-content">
+                <p class="scratch-verse-arabic" id="sc-arabic">loading...</p>
+                <p class="scratch-verse-translation" id="sc-translation">loading...</p>
+                <p class="scratch-verse-reference" id="sc-reference">loading...</p>
+                
+                <!-- NEW: Dynamic Brand Plate inside the Card with Circular Logo -->
+                <div class="card-brand-plate" style="display: flex; flex-direction: column; align-items: center; gap: 6px; margin-top: 15px; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 10px; width: 100%;">
+                    <img id="card-channel-logo" src="https://via.placeholder.com/32" style="width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid #ff0000; box-shadow: 0 0 8px rgba(255, 0, 0, 0.4); object-fit: cover;" alt="Logo">
+                    <span style="font-size: 9px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #888888;">Presented By <span class="red-text" style="font-weight: bold;">Urdu</span> <span class="white-text" style="font-weight: bold;">Wri8es</span></span>
+                </div>
+            </div>
+            
+            <!-- Silver Coating Canvas Layer on top -->
+            <canvas id="scratch-canvas" class="scratch-canvas"></canvas>
+        </div>
+
+        <!-- Utility Buttons - Added Auto Reveal -->
+        <div style="display: flex; gap: 12px; justify-content: center; margin-top: 25px; flex-wrap: wrap;">
+            <button class="submit-btn" onclick="autoRevealScratchCard()" style="width: auto; padding: 10px 20px; background-color: #ff0000; box-shadow: 0 4px 10px rgba(255, 0, 0, 0.4);"><i class="fas fa-magic"></i> Auto Reveal</button>
+            <button class="submit-btn" onclick="generateNewScratchCard()" style="width: auto; padding: 10px 20px; background-color: #222; border: 1px solid #444;"><i class="fas fa-sync"></i> New Card</button>
+            <button class="submit-btn" onclick="showPage('home')" style="width: auto; padding: 10px 20px;"><i class="fas fa-home"></i> Back to Home</button>
+        </div>
     </div>
 
     <!-- 6. Footer Section (Bottom) - Global SEO Tags & Centered Socials -->
@@ -2181,6 +2333,249 @@
         }
 
         // Website load hone par functions run karna
+        
+       // --- 1. NEW MASSIVE ARRAY of 50 BEAUTIFUL VERSES & HADITHS ---
+        const scratchVerses = [
+            { arabic: "إِنَّ مَعَ الْعُسْرِ يُسْرًا", translation: "Beshak mushkil ke sath aasani hai.", reference: "(Surah Al-Inshirah: 6)" },
+            { arabic: "فَاذْكُرُونِي أَذْكُرْكُمْ", translation: "Tum Mujhe yaad karo, Main tumhein yaad karunga.", reference: "(Surah Al-Baqarah: 152)" },
+            { arabic: "وَلَسَوْفَ يُعْطِيكَ رَبُّكَ فَتَرْضَىٰ", translation: "Aur aapka Rab aapko itna dega ke aap khush ho jayenge.", reference: "(Surah Al-Duha: 5)" },
+            { arabic: "لَا تَحْزَنْ إِنَّ اللَّهَ مَعَنَا", translation: "Ghabrao nahi, beshak Allah hamare sath hai.", reference: "(Surah At-Tawbah: 40)" },
+            { arabic: "إِنَّ اللَّهَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ", translation: "Beshak Allah har cheez par qadir hai.", reference: "(Surah Al-Baqarah: 20)" },
+            { arabic: "إِنَّ اللَّهَ مَعَ الصَّابِرِينَ", translation: "Beshak Allah sabar karne walon ke sath hai.", reference: "(Surah Al-Baqarah: 153)" },
+            { arabic: "وَقُل رَّبِّ زِدْنِي عِلْمًا", translation: "Aur kaho: 'Aye mere Rab! Mere ilm mein izafa farma.'", reference: "(Surah Taha: 114)" },
+            { arabic: "وَاللَّهُ يَعْلَمُ مَا فِي قُلُوبِكُمْ", translation: "Aur Allah khoob janta hai jo kuch tumhare dilon mein hai.", reference: "(Surah Al-Ahzab: 51)" },
+            { arabic: "وَتَوَكَّلْ عَلَى اللَّهِ", translation: "Aur Allah par tawakkul (bharosa) karo.", reference: "(Surah Al-Ahzab: 3)" },
+            { arabic: "إِنَّ الدِّينَ عِندَ اللَّهِ الْإِسْلَامُ", translation: "Beshak Allah ke nazdeek pasandida deen sirf Islam hai.", reference: "(Surah Al-Imran: 19)" },
+            { arabic: "وَأَقِيمُوا الصَّلَاةَ وَآتُوا الزَّكَاةَ", translation: "Aur namaz qaim karo aur zakat ada karo.", reference: "(Surah Al-Baqarah: 43)" },
+            { arabic: "ادْعُونِي أَسْتَجِبْ لَكُمْ", translation: "Tum Mujhe pukaro, Main tumhari dua qabool karunga.", reference: "(Surah Ghafir: 60)" },
+            { arabic: "أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ", translation: "Suno! Allah ke zikr se hi dilon ko sukoon milta hai.", reference: "(Surah Ar-Ra'd: 28)" },
+            { arabic: "وَإِذَا سَأَلَكَ عِبَادِي عَنِّي فَإِنِّي قَرِيبٌ", translation: "Aur jab Mere bande aap se Mere mutalik poochein, toh beshak Main qareeb hoon.", reference: "(Surah Al-Baqarah: 186)" },
+            { arabic: "لَا تَقْنَطُوا مِن رَّحْمَةِ اللَّهِ", translation: "Allah ki rahmat se na-umeed na ho.", reference: "(Surah Al-Zumar: 53)" },
+            { arabic: "وَهُوَ مَعَكُمْ أَيْنَ مَا كُنتُمْ", translation: "Aur woh tumhare sath hai tum jahan bhi ho.", reference: "(Surah Al-Hadid: 4)" },
+            { arabic: "قُلْ هُوَ اللَّهُ أَحَدٌ", translation: "Kaho: 'Woh Allah ek hai.'", reference: "(Surah Al-Ikhlas: 1)" },
+            { arabic: "وَمَن يَتَوَكَّلْ عَلَى اللَّهِ فَهُوَ حَسْبُهُ", translation: "Aur jo Allah par bharosa kare, toh woh uske liye kafi hai.", reference: "(Surah Al-Talaq: 3)" },
+            { arabic: "إِنَّ اللَّهَ غَفُورٌ رَّحِيمٌ", translation: "Beshak Allah bohot bakhshne wala nihayat meharban hai.", reference: "(Surah Al-Baqarah: 173)" },
+            { arabic: "إِنَّ أَكْرَمَكُمْ عِندَ اللَّهِ أَتْقَاكُمْ", translation: "Beshak Allah ke nazdeek tum mein se sabse zyada izzat wala woh hai jo sabse zyada parhezgar hai.", reference: "(Surah Al-Hujurat: 13)" },
+            { arabic: "وَاصْبِرْ لِحُكْمِ رَبِّكَ فَإِنَّكَ بِأَعْيُنِنَا", translation: "Aur apne Rab ke hukum ke liye sabar karein, beshak aap Hamari hifazat mein hain.", reference: "(Surah At-Tur: 48)" },
+            { arabic: "إِنَّ اللَّهَ يُحِبُّ التَّوَّابِينَ وَيُحِبُّ الْمُتَطَهِّرِينَ", translation: "Beshak Allah tauba karne walon ko pasand karta hai aur pak-saf rehne walon se mohabbat karta hai.", reference: "(Surah Al-Baqarah: 222)" },
+            { arabic: "وَتَزَوَّدُوا فَإِنَّ خَيْرَ الزَّادِ التَّقْوَىٰ", translation: "Aur raah ka kharch sath le lo, beshak sabse behtareen kharch parhezgari hai.", reference: "(Surah Al-Baqarah: 197)" },
+            { arabic: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ", translation: "Sab tareefein Allah hi ke liye hain jo tamaam jahano ka parvardigar hai.", reference: "(Surah Al-Fatihah: 2)" },
+            { arabic: "إِنَّمَا الْأَعْمَالُ بِالنِّيَّاتِ", translation: "Beshak aamal ka daromadar niyyat par hai.", reference: "(Sahih al-Bukhari: 1)" },
+            { arabic: "الدِّينُ النَّصِيحَةُ", translation: "Deen toh khair-khwahi ka naam hai.", reference: "(Sahih Muslim: 55)" },
+            { arabic: "مَنْ لَا يَرْحَمُ لَا يُرْحَمُ", translation: "Jo raham nahi karta, us par raham nahi kiya jata.", reference: "(Sahih al-Bukhari: 5997)" },
+            { arabic: "الْمُسْلِمُ مَنْ سَلِمَ الْمُسْلِمُونَ مِنْ لِسَانِهِ وَيَدِهِ", translation: "Musalman woh hai jiske haath aur zubaan se dusre musalman mehfooz rahein.", reference: "(Sahih al-Bukhari: 10)" },
+            { arabic: "خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ", translation: "Tum mein se sabse behtareen woh hai jo Quran seekhe aur doosron ko sikhaye.", reference: "(Sahih al-Bukhari: 5027)" },
+            { arabic: "الْجَنَّةُ تَحْتَ أَقْدَامِ الأُمَّهَاتِ", translation: "Jannat maon ke qadmon ke neeche hai.", reference: "(Musnad Ahmad: 3/429)" },
+            { arabic: "الصَّلاَةُ عِمَادُ الدِّينِ", translation: "Namaz deen ka sutoon (pillar) hai.", reference: "(Shu'ab al-Iman: 3051)" },
+            { arabic: "تَهَادَوْا تَحَابُّوا", translation: "Ek dusre ko tohfe do, isse aapas mein mohabbat badhegi.", reference: "(Al-Adab Al-Mufrad: 594)" },
+            { arabic: "يَسِّرُوا وَلاَ تُعَسِّرُوا", translation: "Aasani paida karo, mushkilat khari na karo.", reference: "(Sahih al-Bukhari: 69)" },
+            { arabic: "بَشِّرُوا وَلاَ تُنَفِّرُوا", translation: "Khushkhabri sunao, logon ko nafrat na dilao.", reference: "(Sahih Muslim: 1732)" },
+            { arabic: "اتَّقِ اللَّهَ حَيْثُمَا كُنْتَ", translation: "Jahan bhi raho Allah se darte raho.", reference: "(Jami` at-Tirmidhi: 1987)" },
+            { arabic: "الطَّهُورُ شَطْرُ الإِيمَانِ", translation: "Pakiza-gi (Safai) imaan ka aadha hissa hai.", reference: "(Sahih Muslim: 223)" },
+            { arabic: "الْكَلِمَةُ الطَّيِّبَةُ صَدَقَةٌ", translation: "Achi aur pyari baat karna bhi sadqa hai.", reference: "(Sahih al-Bukhari: 2989)" },
+            { arabic: "مَنْ دَلَّ عَلَى خَيْرٍ فَلَهُ مِثْلُ أَجْرِ فَاعِلِهِ", translation: "Jo kisi ko neki ki rah dikhaye, use bhi neki karne wale ke barabar sawab milta hai.", reference: "(Sahih Muslim: 1893)" },
+            { arabic: "لَا تَغْضَبْ", translation: "Gussa mat kiya karo.", reference: "(Sahih al-Bukhari: 6116)" },
+            { arabic: "أَقْرَبُ مَا يَكُونُ الْعَبْدُ مِنْ رَبِّهِ وَهُوَ سَاجِدٌ", translation: "Banda apne Rab ke sabse zyada qareeb sajdah ki halat mein hota hai.", reference: "(Sahih Muslim: 482)" },
+            { arabic: "الدُّعَاءُ هُوَ الْعِبَادَةُ", translation: "Dua hi asal ibadat hai.", reference: "(Jami` at-Tirmidhi: 2969)" },
+            { arabic: "الْحَيَاءُ شُعْبَةٌ مِنَ الإِيمَانِ", translation: "Haya imaan ki ek ahem shakh (branch) hai.", reference: "(Sahih al-Bukhari: 9)" },
+            { arabic: "لَيْسَ الْغِنَى عَنْ كَثْرَةِ الْعَرَضِ وَلَکِنَّ الْغِنَى غِنَى النَّفْسِ", translation: "Ameeri maal ki kasrat se nahi, balki asal ameeri dil ki be-niyazi (sakhi) hai.", reference: "(Sahih al-Bukhari: 6446)" },
+            { arabic: "مَنْ صَمَتَ نَجَا", translation: "Jo khamosh raha, usne najaat payi.", reference: "(Jami` at-Tirmidhi: 2501)" },
+            { arabic: "لَا يَدْخُلُ الْجَنَّةَ خَبٌّ وَلَا بَخِيلٌ", translation: "Dhoke-baaz aur bakhil (kanjoos) jannat mein dakhil nahi hoga.", reference: "(Jami` at-Tirmidhi: 1963)" },
+            { arabic: "الْقُرْآنُ حُجَّةٌ لَكَ أَوْ عَلَيْكَ", translation: "Quran aapke haq mein ya aapke khilaf gawah banega.", reference: "(Sahih Muslim: 223)" },
+            { arabic: "وَجُعِلَت ' قُرَّةُ عَيْنِي فِي الصَّلَاةِ", translation: "Aur meri aankhon ki thandak namaz mein rakhi gayi hai.", reference: "(Sunan an-Nasa'i: 3939)" },
+            { arabic: "إِنَّ اللَّهَ يُحِبُّ إِذَا عَمِلَ أَحَدُكُمْ عَمَلًا أَنْ يُتْقِنَهُ", translation: "Beshak Allah pasand karta hai ke jab tum mein se koi kaam kare toh use nihayat hi khubsoorat aur behtareen andaz se mukammal kare.", reference: "(Shu'ab al-Iman: 4931)" },
+            { arabic: "الْمَرْءُ مَعَ مَنْ أَحَبَّ", translation: "Insaan (qiyamat ke din) usi ke sath hoga jiske sath woh mohabbat rakhta tha.", reference: "(Sahih al-Bukhari: 6168)" },
+            { arabic: "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ كَنْزٌ مِنْ كُنُوزِ الْجَنَّةِ", translation: "\"La Hawla wa la Quwwata illa billah\" parhna jannat ke khazano mein se ek khazana hai.", reference: "(Sahih al-Bukhari: 6384)" }
+        ];
+
+        // 2. Variables for Scratch Card
+        let isDrawing = false;
+        let canvas, ctx;
+
+        // 3. Dropdown Toggler Function (Separated from sidebar menu!)
+        function toggleDotsMenu() {
+            const dotsMenu = document.getElementById('dots-menu');
+            dotsMenu.classList.toggle('active');
+
+            // Agar left-side ka sliding menu khula ho toh use pehle band karein
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            if (sidebar && overlay) {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+            }
+        }
+
+        // Close dropdown on outside click
+        window.addEventListener('click', function(e) {
+            const dotsMenu = document.getElementById('dots-menu');
+            const dotsBtn = document.querySelector('.menu-dots-toggle');
+            if (dotsMenu && dotsBtn && !dotsBtn.contains(e.target) && !dotsMenu.contains(e.target)) {
+                dotsMenu.classList.remove('active');
+            }
+        });
+
+        // 5. Custom Page Router extension (Integrated)
+        const originalShowPage = window.showPage;
+        window.showPage = function(pageId) {
+            // Close both menus
+            const dotsMenu = document.getElementById('dots-menu');
+            if (dotsMenu) dotsMenu.classList.remove('active');
+
+            const homeView = document.getElementById('home-view');
+            const scratchCardView = document.getElementById('scratch-card-view');
+
+            // Hide all custom views
+            if (scratchCardView) scratchCardView.style.display = 'none';
+
+            if (pageId === 'scratch-card') {
+                if (homeView) homeView.style.display = 'none';
+                document.querySelectorAll('.page-view').forEach(view => view.style.display = 'none');
+                
+                scratchCardView.style.display = 'block';
+                initScratchCard();
+            } else {
+                if (originalShowPage) {
+                    originalShowPage(pageId);
+                } else {
+                    if (homeView) homeView.style.display = 'block';
+                }
+            }
+            window.scrollTo(0, 0);
+        };
+
+        // 6. Scratch Card Engine (HTML5 Touch Canvas with Auto-Peel Animation)
+        function initScratchCard() {
+            canvas = document.getElementById('scratch-canvas');
+            ctx = canvas.getContext('2d');
+
+            // Set canvas sizing exactly as CSS container
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+
+            // Fill canvas with premium metallic silver coating
+            const grad = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            grad.addColorStop(0, '#a0a0a0');
+            grad.addColorStop(0.5, '#e0e0e0');
+            grad.addColorStop(1, '#808888');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Add some beautiful gold/silver shiny sparkles/noise
+            for (let i = 0; i < 200; i++) {
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+                ctx.fillRect(Math.random() * canvas.width, Math.random() * canvas.height, 2, 2);
+            }
+
+            // Reset opacity and remove sliding classes to original state
+            canvas.style.opacity = 1;
+            canvas.style.display = 'block';
+            canvas.classList.remove('slide-out'); // Reset dynamic slide class for next card
+
+            // Load a random Quranic verse/Hadees
+            const randomVerse = scratchVerses[Math.floor(Math.random() * scratchVerses.length)];
+            document.getElementById('sc-arabic').textContent = randomVerse.arabic;
+            document.getElementById('sc-translation').textContent = randomVerse.translation;
+            document.getElementById('sc-reference').textContent = randomVerse.reference;
+
+            // NEW: Card ke logo ko hamesha dynamic set karna jo original channel logo hai (100% automated!)
+            const ytLogoUrl = document.getElementById('channel-logo').src;
+            const cardLogo = document.getElementById('card-channel-logo');
+            if (cardLogo && ytLogoUrl) {
+                cardLogo.src = ytLogoUrl;
+            }
+
+            // Event Listeners for erasing (Desktop & Mobile)
+            canvas.removeEventListener('mousedown', startScratch);
+            canvas.removeEventListener('mousemove', scratchMove);
+            canvas.removeEventListener('mouseup', endScratch);
+            canvas.removeEventListener('touchstart', startScratch);
+            canvas.removeEventListener('touchmove', scratchMove);
+            canvas.removeEventListener('touchend', endScratch);
+
+            canvas.addEventListener('mousedown', startScratch);
+            canvas.addEventListener('mousemove', scratchMove);
+            canvas.addEventListener('mouseup', endScratch);
+            canvas.addEventListener('touchstart', startScratch);
+            canvas.addEventListener('touchmove', scratchMove);
+            canvas.addEventListener('touchend', endScratch);
+        }
+
+        function startScratch(e) {
+            isDrawing = true;
+            scratchMove(e); // First point scratch
+        }
+
+        function endScratch() {
+            isDrawing = false;
+            checkScratchPercentage();
+        }
+
+        function scratchMove(e) {
+            if (!isDrawing) return;
+            e.preventDefault();
+
+            // Get coordinates depending on touch or mouse
+            const rect = canvas.getBoundingClientRect();
+            let clientX = e.clientX;
+            let clientY = e.clientY;
+
+            if (e.touches && e.touches[0]) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            }
+
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
+
+            // Set composite operation to erase (destination-out)
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.beginPath();
+            ctx.arc(x, y, 22, 0, Math.PI * 2); // 22px round brush
+            ctx.fill();
+        }
+
+        // Auto-reveal if scratched more than 45%
+        function checkScratchPercentage() {
+            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const pixels = imgData.data;
+            let transparentCount = 0;
+
+            for (let i = 3; i < pixels.length; i += 4) {
+                if (pixels[i] === 0) {
+                    transparentCount++;
+                }
+            }
+
+            const percentage = (transparentCount / (pixels.length / 4)) * 100;
+
+            if (percentage > 45) {
+                // Smoothly fade away remaining coating
+                canvas.style.opacity = 0;
+                setTimeout(() => {
+                    canvas.style.display = 'none';
+                }, 500); // 0.5s transition matching CSS
+            }
+        }
+
+        function generateNewScratchCard() {
+            initScratchCard();
+        }
+
+        // NEW: 3D Slide Peel Animation Toggler
+        function autoRevealScratchCard() {
+            canvas = document.getElementById('scratch-canvas');
+            if (canvas && canvas.style.display !== 'none' && !canvas.classList.contains('slide-out')) {
+                // Add CSS 3D Slide-out class
+                canvas.classList.add('slide-out');
+                
+                // 0.8 seconds (match CSS transition) ke baad display block hatana taake clicks transparent hon
+                setTimeout(() => {
+                    canvas.style.display = 'none';
+                }, 800);
+            }
+        }
+        
         loadInitialContent();
         initVersePopup(); // Dynamic popup start!
     </script>
