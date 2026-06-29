@@ -9,8 +9,8 @@
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
    <link rel="stylesheet" href="style.css">
 
-   <!-- NEW: Dynamic Favicon Tag -->
-   <link rel="icon" id="dynamic-favicon" type="image/x-icon" href="https://yt3.googleusercontent.com/LXDzKs-HGlz-fQ10b6EyaJ6XmxRsJllC_exbvrRJK1fD1uYfeckrGJ8Bz3ibztyig08AcT9pHM0=s160-c-k-c0x00ffffff-no-rj">
+   <!-- NEW: Static Favicon File -->
+<link rel="icon" type="image/png" href="favicon.png">
    
    <!-- EmailJS SDK Loader -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
@@ -1837,9 +1837,7 @@
                             const ytLogoUrl = snippet.thumbnails.high.url || snippet.thumbnails.default.url;
                             logoImg.src = ytLogoUrl;
   
-                          // Dynamic Favicon update logic
-                          const favicon = document.getElementById('dynamic-favicon');
-                          if (favicon) favicon.href = ytLogoUrl;
+                          
                             // Set high-res dynamic Channel Art (Banner) in background
                             if (branding && branding.image && branding.image.bannerExternalUrl) {
                                 const ytBannerUrl = branding.image.bannerExternalUrl + "=w1060";
